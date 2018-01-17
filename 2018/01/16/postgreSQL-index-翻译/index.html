@@ -5,15 +5,19 @@
   
 
   
-  <title>Archiv: 2018 | BBlog</title>
+  <title>postgreSQL index 翻译 | BBlog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="BBlog">
-<meta property="og:url" content="http://xiaohaoxing.github.io/archives/2018/index.html">
+  <meta name="description" content="##9.26.8. 索引维护函数    下表展示了索引维护任务需要用到的函数。恢复的过程中不会执行这些函数。仅限超级用户和索引的owner使用这些函数。表9.87 索引维护函数|函数名|返回值类型|描述信息||————-|——–|——————————-||brin_summarize_new_values(index regclass)|integer|||brin_summarize_range">
+<meta property="og:type" content="article">
+<meta property="og:title" content="postgreSQL index 翻译">
+<meta property="og:url" content="http://xiaohaoxing.github.io/2018/01/16/postgreSQL-index-翻译/index.html">
 <meta property="og:site_name" content="BBlog">
+<meta property="og:description" content="##9.26.8. 索引维护函数    下表展示了索引维护任务需要用到的函数。恢复的过程中不会执行这些函数。仅限超级用户和索引的owner使用这些函数。表9.87 索引维护函数|函数名|返回值类型|描述信息||————-|——–|——————————-||brin_summarize_new_values(index regclass)|integer|||brin_summarize_range">
 <meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2018-01-16T07:38:03.045Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="BBlog">
+<meta name="twitter:title" content="postgreSQL index 翻译">
+<meta name="twitter:description" content="##9.26.8. 索引维护函数    下表展示了索引维护任务需要用到的函数。恢复的过程中不会执行这些函数。仅限超级用户和索引的owner使用这些函数。表9.87 索引维护函数|函数名|返回值类型|描述信息||————-|——–|——————————-||brin_summarize_new_values(index regclass)|integer|||brin_summarize_range">
   
     <link rel="alternate" href="/atom.xml" title="BBlog" type="application/atom+xml">
   
@@ -64,97 +68,52 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/01/16/postgreSQL-index-翻译/" class="archive-article-date">
-  <time datetime="2018-01-16T07:31:07.000Z" itemprop="datePublished">Jan 16</time>
+        <section id="main"><article id="post-postgreSQL-index-翻译" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/16/postgreSQL-index-翻译/" class="article-date">
+  <time datetime="2018-01-16T07:31:07.000Z" itemprop="datePublished">2018-01-16</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/16/postgreSQL-index-翻译/">postgreSQL index 翻译</a>
+    <h1 class="article-title" itemprop="name">
+      postgreSQL index 翻译
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/01/13/使用Hexo在github-io搭建博客/" class="archive-article-date">
-  <time datetime="2018-01-13T07:47:02.000Z" itemprop="datePublished">Jan 13</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/13/使用Hexo在github-io搭建博客/">使用Hexo在github.io搭建博客</a>
-    </h1>
-  
+        <p>##9.26.8. 索引维护函数<br>    下表展示了索引维护任务需要用到的函数。恢复的过程中不会执行这些函数。仅限超级用户和索引的owner使用这些函数。<br><em>表9.87 索引维护函数</em><br>|函数名|返回值类型|描述信息|<br>|————-|——–|——————————-|<br>|brin_summarize_new_values(index regclass)|integer||<br>|brin_summarize_range(index regclass, blockNumber bigint|integer||<br>|brin_desummarize_range(index regclass, blockNumber bigint|integer||<br>|gin_clean_pending_list(index regclass)|bigint||</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/01/12/Hello/" class="archive-article-date">
-  <time datetime="2018-01-12T03:53:55.000Z" itemprop="datePublished">Jan 12</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/12/Hello/">Hello</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/01/12/hello-world/" class="archive-article-date">
-  <time datetime="2018-01-12T03:27:59.803Z" itemprop="datePublished">Jan 12</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://xiaohaoxing.github.io/2018/01/16/postgreSQL-index-翻译/" data-id="cjcicorbt0003r20wvrk93gp8" class="article-share-link">Teilen</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/12/hello-world/">Hello World</a>
-    </h1>
-  
-
-    </header>
+      
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/01/13/使用Hexo在github-io搭建博客/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">使用Hexo在github.io搭建博客</div>
+    </a>
   
+</nav>
 
+  
+</article>
 
 </section>
         
