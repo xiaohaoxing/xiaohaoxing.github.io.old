@@ -66,45 +66,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-postgreSQL-index-翻译" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/16/postgreSQL-index-翻译/" class="article-date">
-  <time datetime="2018-01-16T07:31:07.000Z" itemprop="datePublished">2018-01-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/16/postgreSQL-index-翻译/">postgreSQL index 翻译</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>##9.26.8. 索引维护函数<br>    下表展示了索引维护任务需要用到的函数。恢复的过程中不会执行这些函数。仅限超级用户和索引的owner使用这些函数。<br><em>表9.87 索引维护函数</em><br>|函数名|返回值类型|描述信息|<br>|————-|——–|——————————-|<br>|brin_summarize_new_values(index regclass)|integer|归纳尚未归纳的页范围|<br>|brin_summarize_range(index regclass, blockNumber bigint|integer|归纳覆盖了给定块且尚未归纳的页范围|<br>|brin_desummarize_range(index regclass, blockNumber bigint|integer|去归纳(de-summarize)覆盖给定块且已归纳的页范围|<br>|gin_clean_pending_list(index regclass)|bigint|将GIN偏移列表实体移入主索引结构|</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/01/16/postgreSQL-index-翻译/" data-id="cji94k6b10000260x19mwkner" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/postgresql/">postgresql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-使用Hexo在github-io搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/01/13/使用Hexo在github-io搭建博客/" class="article-date">
@@ -127,94 +88,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <pre><code>受学长影响接触到Hexo，加上之前在[github.io](xiaohaoxing.github.io)上经常测试一些前端的小例子，于是决定使用Hexo在github上搭建一个博客。
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/" data-id="cji94k6bm0004260xnjp4dqve" class="article-share-link">Teilen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Hello" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/12/Hello/" class="article-date">
-  <time datetime="2018-01-12T03:53:55.000Z" itemprop="datePublished">2018-01-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/12/Hello/">Hello</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>Hello World!</strong><br><img src="/imgs/happy.JPG" class="0" width="200" height="200" title="JPG"></p>
+        <p>受学长影响接触到Hexo，加上之前在<a href="xiaohaoxing.github.io">github.io</a>上经常测试一些前端的小例子，于是决定使用Hexo在github上搭建一个博客。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/01/12/Hello/" data-id="cji94k6bl0003260xuxmydmsb" class="article-share-link">Teilen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/12/hello-world/" class="article-date">
-  <time datetime="2018-01-12T03:27:59.803Z" itemprop="datePublished">2018-01-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/12/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/01/12/hello-world/" data-id="cji94k6bo0005260x8cjh5lo6" class="article-share-link">Teilen</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/" data-id="cji94wrlz00005c0xt6cxlw5i" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -234,23 +113,9 @@
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/postgresql/">postgresql</a></li></ul>
-    </div>
-  </div>
-
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/postgresql/" style="font-size: 10px;">postgresql</a>
-    </div>
-  </div>
-
   
     
   <div class="widget-wrap">
@@ -269,19 +134,7 @@
       <ul>
         
           <li>
-            <a href="/2018/01/16/postgreSQL-index-翻译/">postgreSQL index 翻译</a>
-          </li>
-        
-          <li>
             <a href="/2018/01/13/使用Hexo在github-io搭建博客/">使用Hexo在github.io搭建博客</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/12/Hello/">Hello</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/12/hello-world/">Hello World</a>
           </li>
         
       </ul>
