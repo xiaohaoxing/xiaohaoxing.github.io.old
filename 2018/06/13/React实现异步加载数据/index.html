@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>React实现异步加载数据 | 编程日记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="零、引言​    熟悉了 React 编写组件的方式，我们自然就想到了一个实际工程中非常常见的一个需求：网络条件差、而请求数据量大的时候，需要的是页面先显示出来，然后异步请求数据填充进去。这样用户体验会更好。 一、后台程序 API 实现​    用 java 写一个简单的 WebAPI 返回数据，这里我们以昨天的步骤条为例，返回一个步骤条的三个步骤的内容数据。 123456789101112131">
+<meta name="keywords" content="前端,React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React实现异步加载数据">
+<meta property="og:url" content="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/index.html">
+<meta property="og:site_name" content="编程日记">
+<meta property="og:description" content="零、引言​    熟悉了 React 编写组件的方式，我们自然就想到了一个实际工程中非常常见的一个需求：网络条件差、而请求数据量大的时候，需要的是页面先显示出来，然后异步请求数据填充进去。这样用户体验会更好。 一、后台程序 API 实现​    用 java 写一个简单的 WebAPI 返回数据，这里我们以昨天的步骤条为例，返回一个步骤条的三个步骤的内容数据。 123456789101112131">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="http://obxrcybsg.bkt.clouddn.com/blog/steps-api-response.png">
+<meta property="og:image" content="http://obxrcybsg.bkt.clouddn.com/blog/react-async-request.mp4">
+<meta property="og:image" content="http://obxrcybsg.bkt.clouddn.com/blog/safari-debugger.png">
+<meta property="og:updated_time" content="2018-06-12T17:25:36.203Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React实现异步加载数据">
+<meta name="twitter:description" content="零、引言​    熟悉了 React 编写组件的方式，我们自然就想到了一个实际工程中非常常见的一个需求：网络条件差、而请求数据量大的时候，需要的是页面先显示出来，然后异步请求数据填充进去。这样用户体验会更好。 一、后台程序 API 实现​    用 java 写一个简单的 WebAPI 返回数据，这里我们以昨天的步骤条为例，返回一个步骤条的三个步骤的内容数据。 123456789101112131">
+<meta name="twitter:image" content="http://obxrcybsg.bkt.clouddn.com/blog/steps-api-response.png">
+  
+    <link rel="alternate" href="/atom.xml" title="编程日记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">编程日记</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">xhx personal blog</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xiaohaoxing.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-React实现异步加载数据" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/13/React实现异步加载数据/" class="article-date">
+  <time datetime="2018-06-12T16:30:26.000Z" itemprop="datePublished">2018-06-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      React实现异步加载数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="零、引言"><a href="#零、引言" class="headerlink" title="零、引言"></a>零、引言</h1><p>​    熟悉了 React 编写组件的方式，我们自然就想到了一个实际工程中非常常见的一个需求：网络条件差、而请求数据量大的时候，需要的是页面先显示出来，然后异步请求数据填充进去。这样用户体验会更好。</p>
+<h1 id="一、后台程序-API-实现"><a href="#一、后台程序-API-实现" class="headerlink" title="一、后台程序 API 实现"></a>一、后台程序 API 实现</h1><p>​    用 java 写一个简单的 WebAPI 返回数据，这里我们以昨天的步骤条为例，返回一个步骤条的三个步骤的内容数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(urlPatterns = <span class="string">"/steps"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StepApi</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span>&#123;</span><br><span class="line">        response.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        response.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, <span class="string">"*"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//get the data;</span></span><br><span class="line">        List&lt;StepModel&gt; steps = getStepData();</span><br><span class="line">        String json = JSONObject.toJSONString(steps);</span><br><span class="line">        <span class="comment">//+延时</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            PrintWriter out = response.getWriter();</span><br><span class="line">            out.append(json);</span><br><span class="line">            out.flush();</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>​    为了更好的观察效果，我们对这个接口加上 1S 的延迟。</p>
+<p>​    结果如下（假设我们做的是支付宝提现的步骤）：</p>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/steps-api-response.png" alt="请求结果"></p>
+<h1 id="二、React-组件的更新"><a href="#二、React-组件的更新" class="headerlink" title="二、React 组件的更新"></a>二、React 组件的更新</h1><p>​    这里我们主要用到的一个方法是：componentDidMount()。顾名思义，就是组件加载完毕之后执行的方法。我们这里顺便用上了 ES6 的Promise 语法（实际作用有待验证！）</p>
+<p>​    首先写一个通用的获取数据方法readData：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> readData = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getSteps</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> response = <span class="keyword">await</span> fetch(url);</span><br><span class="line">    <span class="keyword">let</span> json = <span class="keyword">await</span> response.text();</span><br><span class="line">    <span class="keyword">return</span> json;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    这个函数是 async 的，因此返回的是一个 Promise 对象，需要 readData.then()对数据继续操作。</p>
+<p>​    然后我们需要在组件内部（就是 Progress 这个 class 里面）实现 componentDidMount 方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">componentDidMount()&#123;</span><br><span class="line">    readData(<span class="string">"http://localhost:8080/steps"</span>).then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">        data = <span class="built_in">JSON</span>.parse(data);</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;<span class="attr">steps</span>: data&#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    接着，我们要把 render 方法里写 steps 的地方修改一点点，之前用的是全局变量 steps，我们这里设置 steps 为 this.state.steps 就 OK 了。（const {current} = this.state 也要改为const current = this.state.current 哦，因为 state 成员不止一个了嘛。）</p>
+<p>​    最后，我们需要给这个组件设定一个数据的 placeholder。在组件的constructor 函数（构造函数）里，state 增加一个 steps 字段，值设置为数据没加载出来时期望的内容（比如：Step1、Step2这样的）。</p>
+<p>​    总结起来一共4点：</p>
+<ol>
+<li><p>编写 async 的获取数据的函数。</p>
+</li>
+<li><p>组件实现 componentDidMount 方法。</p>
+</li>
+<li><p>render 里的数据获取方式从固定值变成从 state 里面提取。</p>
+</li>
+<li><p>设置 state 里数据的初始值。</p>
+<p>记得看看有没有遗漏！</p>
+</li>
+</ol>
+<h1 id="三、运行情况和调试"><a href="#三、运行情况和调试" class="headerlink" title="三、运行情况和调试"></a>三、运行情况和调试</h1><p>​    然后我们就可以用 <code>npm start</code>  命令启动项目啦。😄看看是否首先看到组件的内容为 placeholder ，过了1s 才显示出我们需要的数据呢？</p>
+<blockquote>
+<p>​    (我的运行结果)</p>
+</blockquote>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/react-async-request.mp4" alt=""></p>
+<p>​    如果没有按照我们期望的显示怎么办？☹️我们就有必要对前端进行调试了。调试的方法也很简单，我们监控 state 的变化情况，就掌控了运行有没有按照我们的计划运行。我们在 render 的 return 之前增加一行语句：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">debugger</span>;</span><br></pre></td></tr></table></figure>
+<p>​    打开浏览器的开发者工具，刷新页面。</p>
+<p>​    这样，浏览器在运行到这里的时候就会自动停止下来，进入断点。这个时候再在浏览器的调试器界面监视 <code>this.state</code> 就可以看到数据是否被正确取出。</p>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/safari-debugger.png" alt=""></p>
+<p>​    如上图，我们就可以看到，第一次进入 debugger 的时候数据是 placeholder 里的，第二次的时候就是来自于我们异步请求的数据了。</p>
+<h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>​    数据是组件的灵魂。我们采用异步的方式去加载组件数据，在网络加载缓慢的情况下仍然可以预览到提示信息，效果等同于 img 标签的 alt。也比较符合现在异步加载的趋势。</p>
+<h1 id="五、后续"><a href="#五、后续" class="headerlink" title="五、后续"></a>五、后续</h1><p>​    计划将这个项目部署到 github，并且在项目基础上进一步完善。能做出一个完整的项目。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/" data-id="cjibybuby0000md0xn7854lr8" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/11/First-React-Project/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">First React Project</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日常/">日常</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/日常/" style="font-size: 10px;">日常</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/13/React实现异步加载数据/">React实现异步加载数据</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/11/First-React-Project/">First React Project</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/13/使用Hexo在github-io搭建博客/">使用Hexo在github.io搭建博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Haoxing Xiao<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
