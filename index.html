@@ -127,11 +127,12 @@
 <p>​    如上图，我们就可以看到，第一次进入 debugger 的时候数据是 placeholder 里的，第二次的时候就是来自于我们异步请求的数据了。</p>
 <h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>​    数据是组件的灵魂。我们采用异步的方式去加载组件数据，在网络加载缓慢的情况下仍然可以预览到提示信息，效果等同于 img 标签的 alt。也比较符合现在异步加载的趋势。</p>
 <h1 id="五、后续"><a href="#五、后续" class="headerlink" title="五、后续"></a>五、后续</h1><p>​    计划将这个项目部署到 github，并且在项目基础上进一步完善。能做出一个完整的项目。</p>
+<h1 id="六、更新"><a href="#六、更新" class="headerlink" title="六、更新"></a>六、更新</h1><p>​    项目让<a href="http://ygy.online" target="_blank" rel="noopener">@光耀</a>大佬过目以后，他指出项目中异步获取的方式有问题。具体就是：async 和 await 配合使用可以解决 Promise 写法外部读取不到返回的数据的问题，这里继续采用 then 去处理数据就失去了写 async 的意义了。因此修改了这部分的代码。具体变动见<a href="https://github.com/xiaohaoxing/react-app/commit/6247658eabffebdf188b84ebb1201d9b9d700978" target="_blank" rel="noopener">github</a>。变化不多但是涉及的原理挺深入的。还需要继续学习呀！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/" data-id="cjibybuby0000md0xn7854lr8" class="article-share-link">Teilen</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/" data-id="cjicskuo800003q0xmpyzsw3m" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
@@ -216,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/" data-id="cjibybuc60003md0xpo3kxzph" class="article-share-link">Teilen</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/" data-id="cjicskuof00033q0xicn276k2" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
@@ -256,7 +257,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/" data-id="cjibybuc20001md0xx9kzm3rv" class="article-share-link">Teilen</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/" data-id="cjicskuob00013q0x1f6gk67k" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/日常/">日常</a></li></ul>
