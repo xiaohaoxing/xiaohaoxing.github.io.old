@@ -63,7 +63,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xiaohaoxing.github.io"></form>
@@ -73,6 +73,84 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-Mac-OS上搭建虚拟机集群" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/07/02/Mac-OS上搭建虚拟机集群/" class="article-date">
+  <time datetime="2018-07-01T19:35:10.000Z" itemprop="datePublished">2018-07-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/02/Mac-OS上搭建虚拟机集群/">Mac OS上搭建网络连通的虚拟机集群😊</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="零、背景"><a href="#零、背景" class="headerlink" title="零、背景"></a>零、背景</h1><p>​    最近看了一些 Hadoop 相关的书籍和文章，想实现 zookeeper 的一个 demo，因此就需要在本地搭建一个 Linux 的虚拟服务器集群，这篇文章就是针对本地虚拟机的配置。</p>
+<h1 id="一、安装虚拟机软件"><a href="#一、安装虚拟机软件" class="headerlink" title="一、安装虚拟机软件"></a>一、安装虚拟机软件</h1><p>​    VMware 的虚拟机软件是付费的，本着开源精神和<strong>一贫如洗的现状</strong>，于是选择了免费且开源的虚拟机软件：<a href="https://www.virtualbox.org" target="_blank" rel="noopener">VirtualBox</a>。软件的安装就不再赘述了，下载 dmg 文件双击就行了。</p>
+<h1 id="二、安装-Linux-系统"><a href="#二、安装-Linux-系统" class="headerlink" title="二、安装 Linux 系统"></a>二、安装 Linux 系统</h1><p>​    针对 Linux 系统，我选择了<a href="http://releases.ubuntu.com/16.04/ubuntu-16.04.4-server-amd64.iso.torrent?_ga=2.224076818.808344608.1530474534-2083396476.1530192546" target="_blank" rel="noopener">16.04版本的 Ubuntu Server</a>，顺便多讲一下，Ubuntu 的Server 版本就是只有命令行的OS，而 Desktop 是安装就有（可用鼠标操作的）桌面。因为终端的操作在 MacOS 上已经熟悉过了，而且为了降低对内存的占用（桌面程序实在是太吃内存了），所以选择了 Server 版本。Ubuntu 的版本号选用了一种特别的命名方式：[年份].[月份]。主版本号是年后2位，次版本号是2位月份，最新的版本是18.04，就是2018年4月才发布的。强烈不推荐你试用最新的版本，因为最新的可能更新了很多新特性，而社区和网络上对应的教程、问答都还很少，出了问题不好检索原因。使用16.04就够了。</p>
+<p>​    至于在 VirtualBox 上安装 Ubuntu 的过程，全程按照他提示做就行了，设置好用户名和密码。需要注意的地方是：</p>
+<h4 id="第一步的选择语言，请不要选择中文！"><a href="#第一步的选择语言，请不要选择中文！" class="headerlink" title="第一步的选择语言，请不要选择中文！"></a><strong>第一步的选择语言，请不要选择中文！</strong></h4><p>​    后续的步骤还有选择语言界面，到时再选择中文就行了。血的教训：第一步就选择了中文会导致安装过程被中断，无法安装。当然，一个仅有命令行的 OS，选择英语也不构成上手难度，推荐全英文，避免潜在的任何语言问题！</p>
+<h1 id="三、配置虚拟机网络设置"><a href="#三、配置虚拟机网络设置" class="headerlink" title="三、配置虚拟机网络设置"></a>三、配置虚拟机网络设置</h1><p>​    这一步是重点。</p>
+<ol>
+<li><h5 id="先在-VirtualBox-中设置项中添加一个主机网络配置："><a href="#先在-VirtualBox-中设置项中添加一个主机网络配置：" class="headerlink" title="先在 VirtualBox 中设置项中添加一个主机网络配置："></a>先在 VirtualBox 中设置项中添加一个主机网络配置：</h5></li>
+</ol>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-add-host-only-config.png" alt="添加主机网络"></p>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-host-only-config.png" alt="仅主机模式网络"></p>
+<p>​    记住这里的 IPv4 的 IP 哦，后面设置各个虚拟机的网络的时候还会用到！</p>
+<ol>
+<li><h5 id="再将虚拟机的网络设置修改为如下2个网卡的配置："><a href="#再将虚拟机的网络设置修改为如下2个网卡的配置：" class="headerlink" title="再将虚拟机的网络设置修改为如下2个网卡的配置："></a>再将虚拟机的网络设置修改为如下2个网卡的配置：</h5></li>
+</ol>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-eth1-config.png" alt="网卡1配置"></p>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-eth2-config.png" alt="网卡2配置"></p>
+<p>​    然后就可以进入系统继续操作了。</p>
+<ol>
+<li><h5 id="在虚拟机内输入"><a href="#在虚拟机内输入" class="headerlink" title="在虚拟机内输入"></a>在虚拟机内输入</h5></li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br></pre></td></tr></table></figure>
+<p>​    查看所有网卡的状态，这个时候应该有2个虚拟网卡分别是<code>enp0s3</code>和<code>enp0s8</code>，他们对应网卡1和网卡2，分别用于和主机通信与和外网通信。</p>
+<ol>
+<li><p>#####接下来在虚拟机中继续输入<code>sudo vi /etc/network/interfaces</code>编辑网卡设置。</p>
+<p>当前内容应该是：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#The loopback network interface</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line">#Host-only interface</span><br><span class="line">auto eth1 </span><br><span class="line">iface eth1 inet dhcp</span><br></pre></td></tr></table></figure>
+<p>​    第一部分是127.0.0.1的那个网卡的配置，本地连接，不用管它。后面 eth1是网卡1的配置信息，但是名称不对，网卡2的配置信息也是缺失的。所以修改该文件为如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#The loopback network interface</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line">#Host-only interface</span><br><span class="line">auto enp0s3 </span><br><span class="line">iface enp0s3 inet static</span><br><span class="line">	address		192.168.56.101</span><br><span class="line">	netmask		255.255.255.0</span><br><span class="line">	network		192.168.56.0</span><br><span class="line">	boardcast	192.168.56.255</span><br><span class="line"></span><br><span class="line">#NAT interface</span><br><span class="line">auto enp0s8</span><br><span class="line">iface enp0s8 inet dhcp</span><br></pre></td></tr></table></figure>
+<p>​    用人话说就是：把 host only 网卡修改为固定 IP，把 NAT 网卡修改为 自动分配 IP。注意这里设定的 IP 的特点：跟上面 VirtualBox 添加的 Host-only 配置要保证在同一个网段！这样才能组成一个子网络。</p>
+<p>​        重新启动虚拟机，再次输入 <code>ifconfig</code>查看网卡状态，是否有一个 IP 为<code>192.168.56.101</code>的名为<code>enp0s3</code>的网卡？和一个分配了 IPv4 地址的名为<code>enp0s8</code>的网卡？</p>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/ifconfig-result.png" alt="ifconfig 结果"></p>
+<p>​    紧接着在虚拟机内分别 <code>ping</code>主机（192.168.56.1）和 baidu.com测试，最后都到了返回。</p>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/ping-result.png" alt="ping 结果"></p>
+<h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>​    总体上说这一篇的内容不多也不复杂，但是中间走了很多弯路，踩了很多坑。其实做很多东西都是一样，坑踩过了才会不再掉进去，所以不管做了什么，留下一份记录既是对别人的帮助也是对自己的激励！😆</p>
+<p>​    最近还在做 redux 的TodoList 尝试，机器学习算法的学习以及众包论文的阅读和思考。后续可能更偏向于理论知识的学习了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://xiaohaoxing.github.io/2018/07/02/Mac-OS上搭建虚拟机集群/" data-id="cjj3anv9a0001n20xx1y3l4wr" class="article-share-link">Share</a>
+      
+        <a href="http://xiaohaoxing.github.io/2018/07/02/Mac-OS上搭建虚拟机集群/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟机/">虚拟机</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-React实现异步加载数据" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -140,9 +218,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/" data-id="cjj2zgce90001640x5at5kj4g" class="article-share-link">Teilen</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/" data-id="cjj3anv9f0003n20xf48olhek" class="article-share-link">Share</a>
       
-        <a href="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/#disqus_thread" class="article-comment-link">Kommentare</a>
+        <a href="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
@@ -227,9 +305,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/" data-id="cjj2zgce60000640x6rkp02bj" class="article-share-link">Teilen</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/" data-id="cjj3anv960000n20x9cex9k76" class="article-share-link">Share</a>
       
-        <a href="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/#disqus_thread" class="article-comment-link">Kommentare</a>
+        <a href="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
@@ -269,9 +347,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/" data-id="cjj2zgced0003640xfkevpxn3" class="article-share-link">Teilen</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/" data-id="cjj3anv9g0004n20xnap4w26v" class="article-share-link">Share</a>
       
-        <a href="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/#disqus_thread" class="article-comment-link">Kommentare</a>
+        <a href="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/日常/">日常</a></li></ul>
@@ -296,7 +374,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日常/">日常</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日常/">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
     </div>
   </div>
 
@@ -306,16 +384,16 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/日常/" style="font-size: 10px;">日常</a>
+      <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/日常/" style="font-size: 10px;">日常</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
     </div>
   </div>
 
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
     </div>
   </div>
 
@@ -323,9 +401,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/07/02/Mac-OS上搭建虚拟机集群/">Mac OS上搭建网络连通的虚拟机集群😊</a>
+          </li>
         
           <li>
             <a href="/2018/06/13/React实现异步加载数据/">React实现异步加载数据</a>
