@@ -15,8 +15,6 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编程日记">
   
-    <link rel="alternate" href="/atom.xml" title="编程日记" type="application/atom+xml">
-  
   
     <link rel="icon" href="/favicon.ico">
   
@@ -50,20 +48,12 @@
         
           <a class="main-nav-link" href="/archives">archives</a>
         
-          <a class="main-nav-link" href="/categories">categories</a>
-        
           <a class="main-nav-link" href="/tags">tags</a>
-        
-          <a class="main-nav-link" href="/404.html">commonweal</a>
-        
-          <a class="main-nav-link" href="/about">about</a>
         
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xiaohaoxing.github.io"></form>
@@ -102,31 +92,18 @@
 <p>​    至于在 VirtualBox 上安装 Ubuntu 的过程，全程按照他提示做就行了，设置好用户名和密码。需要注意的地方是：</p>
 <h4 id="第一步的选择语言，请不要选择中文！"><a href="#第一步的选择语言，请不要选择中文！" class="headerlink" title="第一步的选择语言，请不要选择中文！"></a><strong>第一步的选择语言，请不要选择中文！</strong></h4><p>​    后续的步骤还有选择语言界面，到时再选择中文就行了。血的教训：第一步就选择了中文会导致安装过程被中断，无法安装。当然，一个仅有命令行的 OS，选择英语也不构成上手难度，推荐全英文，避免潜在的任何语言问题！</p>
 <h1 id="三、配置虚拟机网络设置"><a href="#三、配置虚拟机网络设置" class="headerlink" title="三、配置虚拟机网络设置"></a>三、配置虚拟机网络设置</h1><p>​    这一步是重点。</p>
-<ol>
-<li><h5 id="先在-VirtualBox-中设置项中添加一个主机网络配置："><a href="#先在-VirtualBox-中设置项中添加一个主机网络配置：" class="headerlink" title="先在 VirtualBox 中设置项中添加一个主机网络配置："></a>先在 VirtualBox 中设置项中添加一个主机网络配置：</h5></li>
-</ol>
-<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-add-host-only-config.png" alt="添加主机网络"></p>
+<h5 id="先在-VirtualBox-中设置项中添加一个主机网络配置："><a href="#先在-VirtualBox-中设置项中添加一个主机网络配置：" class="headerlink" title="先在 VirtualBox 中设置项中添加一个主机网络配置："></a>先在 VirtualBox 中设置项中添加一个主机网络配置：</h5><p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-add-host-only-config.png" alt="添加主机网络"></p>
 <p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-host-only-config.png" alt="仅主机模式网络"></p>
 <p>​    记住这里的 IPv4 的 IP 哦，后面设置各个虚拟机的网络的时候还会用到！</p>
-<ol>
-<li><h5 id="再将虚拟机的网络设置修改为如下2个网卡的配置："><a href="#再将虚拟机的网络设置修改为如下2个网卡的配置：" class="headerlink" title="再将虚拟机的网络设置修改为如下2个网卡的配置："></a>再将虚拟机的网络设置修改为如下2个网卡的配置：</h5></li>
-</ol>
-<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-eth1-config.png" alt="网卡1配置"></p>
+<h5 id="再将虚拟机的网络设置修改为如下2个网卡的配置："><a href="#再将虚拟机的网络设置修改为如下2个网卡的配置：" class="headerlink" title="再将虚拟机的网络设置修改为如下2个网卡的配置："></a>再将虚拟机的网络设置修改为如下2个网卡的配置：</h5><p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-eth1-config.png" alt="网卡1配置"></p>
 <p><img src="http://obxrcybsg.bkt.clouddn.com/blog/vm-eth2-config.png" alt="网卡2配置"></p>
 <p>​    然后就可以进入系统继续操作了。</p>
-<ol>
-<li><h5 id="在虚拟机内输入"><a href="#在虚拟机内输入" class="headerlink" title="在虚拟机内输入"></a>在虚拟机内输入</h5></li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br></pre></td></tr></table></figure>
+<h5 id="在虚拟机内输入"><a href="#在虚拟机内输入" class="headerlink" title="在虚拟机内输入"></a>在虚拟机内输入</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br></pre></td></tr></table></figure>
 <p>​    查看所有网卡的状态，这个时候应该有2个虚拟网卡分别是<code>enp0s3</code>和<code>enp0s8</code>，他们对应网卡1和网卡2，分别用于和主机通信与和外网通信。</p>
-<ol>
-<li><p>#####接下来在虚拟机中继续输入<code>sudo vi /etc/network/interfaces</code>编辑网卡设置。</p>
-<p>当前内容应该是：</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#The loopback network interface</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line">#Host-only interface</span><br><span class="line">auto eth1 </span><br><span class="line">iface eth1 inet dhcp</span><br></pre></td></tr></table></figure>
+<h5 id="接下来在虚拟机中继续输入sudo-vi-etc-network-interfaces编辑网卡设置。"><a href="#接下来在虚拟机中继续输入sudo-vi-etc-network-interfaces编辑网卡设置。" class="headerlink" title="接下来在虚拟机中继续输入sudo vi /etc/network/interfaces编辑网卡设置。"></a>接下来在虚拟机中继续输入<code>sudo vi /etc/network/interfaces</code>编辑网卡设置。</h5><p>   当前内容应该是：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>The loopback network interface</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Host-only interface</span><br><span class="line">auto eth1 </span><br><span class="line">iface eth1 inet dhcp</span><br></pre></td></tr></table></figure>
 <p>​    第一部分是127.0.0.1的那个网卡的配置，本地连接，不用管它。后面 eth1是网卡1的配置信息，但是名称不对，网卡2的配置信息也是缺失的。所以修改该文件为如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#The loopback network interface</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line">#Host-only interface</span><br><span class="line">auto enp0s3 </span><br><span class="line">iface enp0s3 inet static</span><br><span class="line">	address		192.168.56.101</span><br><span class="line">	netmask		255.255.255.0</span><br><span class="line">	network		192.168.56.0</span><br><span class="line">	boardcast	192.168.56.255</span><br><span class="line"></span><br><span class="line">#NAT interface</span><br><span class="line">auto enp0s8</span><br><span class="line">iface enp0s8 inet dhcp</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>The loopback network interface</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Host-only interface</span><br><span class="line">auto enp0s3 </span><br><span class="line">iface enp0s3 inet static</span><br><span class="line">	address		192.168.56.101</span><br><span class="line">	netmask		255.255.255.0</span><br><span class="line">	network		192.168.56.0</span><br><span class="line">	boardcast	192.168.56.255</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>NAT interface</span><br><span class="line">auto enp0s8</span><br><span class="line">iface enp0s8 inet dhcp</span><br></pre></td></tr></table></figure>
 <p>​    用人话说就是：把 host only 网卡修改为固定 IP，把 NAT 网卡修改为 自动分配 IP。注意这里设定的 IP 的特点：跟上面 VirtualBox 添加的 Host-only 配置要保证在同一个网段！这样才能组成一个子网络。</p>
 <p>​        重新启动虚拟机，再次输入 <code>ifconfig</code>查看网卡状态，是否有一个 IP 为<code>192.168.56.101</code>的名为<code>enp0s3</code>的网卡？和一个分配了 IPv4 地址的名为<code>enp0s8</code>的网卡？</p>
 <p><img src="http://obxrcybsg.bkt.clouddn.com/blog/ifconfig-result.png" alt="ifconfig 结果"></p>
@@ -138,9 +115,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/07/02/Mac-OS上搭建虚拟机集群/" data-id="cjj3anv9a0001n20xx1y3l4wr" class="article-share-link">Share</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/07/02/Mac-OS上搭建虚拟机集群/" data-id="cjj487p1m0001kg0x5yu2ztvf" class="article-share-link">Teilen</a>
       
-        <a href="http://xiaohaoxing.github.io/2018/07/02/Mac-OS上搭建虚拟机集群/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://xiaohaoxing.github.io/2018/07/02/Mac-OS上搭建虚拟机集群/#disqus_thread" class="article-comment-link">Kommentare</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/虚拟机/">虚拟机</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
@@ -218,9 +195,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/" data-id="cjj3anv9f0003n20xf48olhek" class="article-share-link">Share</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/" data-id="cjj487p1q0003kg0xh2gfhjw5" class="article-share-link">Teilen</a>
       
-        <a href="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/#disqus_thread" class="article-comment-link">Kommentare</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
@@ -305,9 +282,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/" data-id="cjj3anv960000n20x9cex9k76" class="article-share-link">Share</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/" data-id="cjj487p1i0000kg0xlxrh6lq6" class="article-share-link">Teilen</a>
       
-        <a href="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://xiaohaoxing.github.io/2018/06/11/First-React-Project/#disqus_thread" class="article-comment-link">Kommentare</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
@@ -347,9 +324,9 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/" data-id="cjj3anv9g0004n20xnap4w26v" class="article-share-link">Share</a>
+      <a data-url="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/" data-id="cjj487p1s0004kg0xmo5zuwl5" class="article-share-link">Teilen</a>
       
-        <a href="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://xiaohaoxing.github.io/2018/01/13/使用Hexo在github-io搭建博客/#disqus_thread" class="article-comment-link">Kommentare</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/日常/">日常</a></li></ul>
@@ -374,7 +351,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日常/">日常</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日常/">日常</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -391,9 +368,9 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -401,7 +378,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">letzter Beitrag</h3>
     <div class="widget">
       <ul>
         
@@ -445,13 +422,7 @@
   
     <a href="/archives" class="mobile-nav-link">archives</a>
   
-    <a href="/categories" class="mobile-nav-link">categories</a>
-  
     <a href="/tags" class="mobile-nav-link">tags</a>
-  
-    <a href="/404.html" class="mobile-nav-link">commonweal</a>
-  
-    <a href="/about" class="mobile-nav-link">about</a>
   
 </nav>
     
