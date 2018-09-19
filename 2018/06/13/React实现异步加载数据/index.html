@@ -1,99 +1,111 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
 <html>
-<head>
-  <meta charset="utf-8">
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  React实现异步加载数据 |   XHX 博客 </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.ico">
   
 
-  
-  <title>React实现异步加载数据 | 编程日记</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="零、引言​    熟悉了 React 编写组件的方式，我们自然就想到了一个实际工程中非常常见的一个需求：网络条件差、而请求数据量大的时候，需要的是页面先显示出来，然后异步请求数据填充进去。这样用户体验会更好。 一、后台程序 API 实现​    用 java 写一个简单的 WebAPI 返回数据，这里我们以昨天的步骤条为例，返回一个步骤条的三个步骤的内容数据。 123456789101112131">
-<meta name="keywords" content="前端,React">
-<meta property="og:type" content="article">
-<meta property="og:title" content="React实现异步加载数据">
-<meta property="og:url" content="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/index.html">
-<meta property="og:site_name" content="编程日记">
-<meta property="og:description" content="零、引言​    熟悉了 React 编写组件的方式，我们自然就想到了一个实际工程中非常常见的一个需求：网络条件差、而请求数据量大的时候，需要的是页面先显示出来，然后异步请求数据填充进去。这样用户体验会更好。 一、后台程序 API 实现​    用 java 写一个简单的 WebAPI 返回数据，这里我们以昨天的步骤条为例，返回一个步骤条的三个步骤的内容数据。 123456789101112131">
-<meta property="og:locale" content="zh">
-<meta property="og:image" content="http://obxrcybsg.bkt.clouddn.com/blog/steps-api-response.png">
-<meta property="og:image" content="http://obxrcybsg.bkt.clouddn.com/blog/react-async-request.mp4">
-<meta property="og:image" content="http://obxrcybsg.bkt.clouddn.com/blog/safari-debugger.png">
-<meta property="og:updated_time" content="2018-06-13T07:27:43.027Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="React实现异步加载数据">
-<meta name="twitter:description" content="零、引言​    熟悉了 React 编写组件的方式，我们自然就想到了一个实际工程中非常常见的一个需求：网络条件差、而请求数据量大的时候，需要的是页面先显示出来，然后异步请求数据填充进去。这样用户体验会更好。 一、后台程序 API 实现​    用 java 写一个简单的 WebAPI 返回数据，这里我们以昨天的步骤条为例，返回一个步骤条的三个步骤的内容数据。 123456789101112131">
-<meta name="twitter:image" content="http://obxrcybsg.bkt.clouddn.com/blog/steps-api-response.png">
-  
-  
-    <link rel="icon" href="/favicon.ico">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">编程日记</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">xhx personal blog</a>
-        </h2>
-      
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-nav">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <img class="header-logo-img" src="/images/head.JPG">
+      </a>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">home</a>
-        
-          <a class="main-nav-link" href="/archives">archives</a>
-        
-          <a class="main-nav-link" href="/tags">tags</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xiaohaoxing.github.io"></form>
-      </div>
-    </div>
-  </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
 </header>
-      <div class="outer">
-        <section id="main"><article id="post-React实现异步加载数据" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/06/13/React实现异步加载数据/" class="article-date">
-  <time datetime="2018-06-12T16:30:26.000Z" itemprop="datePublished">2018-06-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      React实现异步加载数据
-    </h1>
-  
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="零、引言"><a href="#零、引言" class="headerlink" title="零、引言"></a>零、引言</h1><p>​    熟悉了 React 编写组件的方式，我们自然就想到了一个实际工程中非常常见的一个需求：网络条件差、而请求数据量大的时候，需要的是页面先显示出来，然后异步请求数据填充进去。这样用户体验会更好。</p>
+   
+
+      <div class="container">       
+          
+          
+            <section class="main">  
+          
+
+          <article class="post">
+  
+	<div class="post-header">
+
+	<p class="post-title">	
+		React实现异步加载数据
+	</p>
+			
+
+	<div class="meta-info">	
+	<span>
+		Jun 13, 2018
+	</span>
+
+	
+	
+		<i class="iconfont icon-words"></i>
+		<span>
+			2437
+		</span>
+	
+</div>
+
+</div> 
+	 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<h1 id="零、引言"><a href="#零、引言" class="headerlink" title="零、引言"></a>零、引言</h1><p>​    熟悉了 React 编写组件的方式，我们自然就想到了一个实际工程中非常常见的一个需求：网络条件差、而请求数据量大的时候，需要的是页面先显示出来，然后异步请求数据填充进去。这样用户体验会更好。<br><a id="more"></a></p>
 <h1 id="一、后台程序-API-实现"><a href="#一、后台程序-API-实现" class="headerlink" title="一、后台程序 API 实现"></a>一、后台程序 API 实现</h1><p>​    用 java 写一个简单的 WebAPI 返回数据，这里我们以昨天的步骤条为例，返回一个步骤条的三个步骤的内容数据。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(urlPatterns = <span class="string">"/steps"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StepApi</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span>&#123;</span><br><span class="line">        response.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        response.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, <span class="string">"*"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//get the data;</span></span><br><span class="line">        List&lt;StepModel&gt; steps = getStepData();</span><br><span class="line">        String json = JSONObject.toJSONString(steps);</span><br><span class="line">        <span class="comment">//+延时</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            PrintWriter out = response.getWriter();</span><br><span class="line">            out.append(json);</span><br><span class="line">            out.flush();</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>​    为了更好的观察效果，我们对这个接口加上 1S 的延迟。</p>
@@ -133,161 +145,187 @@
 <h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>​    数据是组件的灵魂。我们采用异步的方式去加载组件数据，在网络加载缓慢的情况下仍然可以预览到提示信息，效果等同于 img 标签的 alt。也比较符合现在异步加载的趋势。</p>
 <h1 id="五、后续"><a href="#五、后续" class="headerlink" title="五、后续"></a>五、后续</h1><p>​    计划将这个项目部署到 github，并且在项目基础上进一步完善。能做出一个完整的项目。</p>
 <h1 id="六、更新"><a href="#六、更新" class="headerlink" title="六、更新"></a>六、更新</h1><p>​    项目让<a href="http://ygy.online" target="_blank" rel="noopener">@光耀</a>大佬过目以后，他指出项目中异步获取的方式有问题。具体就是：async 和 await 配合使用可以解决 Promise 写法外部读取不到返回的数据的问题，这里继续采用 then 去处理数据就失去了写 async 的意义了。因此修改了这部分的代码。具体变动见<a href="https://github.com/xiaohaoxing/react-app/commit/6247658eabffebdf188b84ebb1201d9b9d700978" target="_blank" rel="noopener">github</a>。变化不多但是涉及的原理挺深入的。还需要继续学习呀！</p>
+  	
+					
+	  </div>     
+	  
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/" data-id="cjj487p1q0003kg0xh2gfhjw5" class="article-share-link">Teilen</a>
-      
-        <a href="http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/#disqus_thread" class="article-comment-link">Kommentare</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/React/">React</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/前端/">前端</a></li></ul>
+	<div class="post-footer">
 
-    </footer>
+  <div class="post-footer-other">
+      <span class="post-footer-item">
+         
+      </span>           
+      <span class="post-footer-item">
+        
+	
+<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+	
+	<span class="share-btn">
+	<span class="iconfont icon-share"></span>
+	</span>
+
+
+	<div class="-mob-share sildeUpMin">
+		<div class="-mob-inner">
+		   			             
+            <a class="iconfont icon-share-qq -mob-share-link"></a>		
+     	   			             
+            <a class="iconfont icon-share-weixin -mob-share-link"></a>		
+     	   			             
+            <a class="iconfont icon-share-weibo -mob-share-link"></a>		
+     	   
+		</div>
+	</div>	
+
+      </span>           
+  </div>  
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/React/">React</a> <a class="tag-link" href="/tags/前端/">前端</a>    
+        	
   </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
   
-    
-<nav id="article-nav">
+    <div class="post-footer-link">
+      <a href="/2018/07/02/Mac-OS上搭建虚拟机集群/" id="post-nav-newer" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">newer</strong>
+           
+          <a class="post-nav-title" href="/2018/07/02/Mac-OS上搭建虚拟机集群/">
+          Mac OS上搭建网络连通的虚拟机集群😊</a>
+      </a>
+    </div>
   
-    <a href="/2018/07/02/Mac-OS上搭建虚拟机集群/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Neuer</strong>
-      <div class="article-nav-title">
+  
+    <div class="post-footer-link">
+      <a href="/2018/06/11/First-React-Project/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
         
-          Mac OS上搭建网络连通的虚拟机集群😊
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/06/11/First-React-Project/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
-      <div class="article-nav-title">First React Project</div>
-    </a>
+          <a class="post-nav-title" href="/2018/06/11/First-React-Project/">
+          First React Project</a>
+      </a>
+    </div>
   
 </nav>
+ 
+	
 
-  
+
+    
+    <div id="disqus_thread"></div>
+
+    <script>
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://'+'xiaohaoxing-github-io'+'.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());    
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+
+    <noscript>Please enable JavaScript to view the  <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+
+
+	
 </article>
 
-
-<section id="comments">
-  <div id="disqus_thread">
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </div>
-</section>
-</section>
-        
-          <aside id="sidebar">
-  
+          </section> 
+      </div>            
     
+    <a id="backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
 
   
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/React/">React</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/日常/">日常</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/虚拟机/">虚拟机</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机网络/">计算机网络</a><span class="tag-list-count">1</span></li></ul>
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="输入你想搜索的" id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
     </div>
-  </div>
+ 
+     <div class="mobile-menu">      
 
+      
+      <img class="mobile-menu-icon" src="/images/favicon.ico">   
+      
 
-  
+         
+            
+
+            <a class="mobile-menu-link" href="/">首页
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">归档
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">标签
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">关于
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">搜索 </a>                 
+            
+         
+      
+</div>        
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/React/" style="font-size: 20px;">React</a> <a href="/tags/前端/" style="font-size: 20px;">前端</a> <a href="/tags/日常/" style="font-size: 10px;">日常</a> <a href="/tags/虚拟机/" style="font-size: 10px;">虚拟机</a> <a href="/tags/计算机网络/" style="font-size: 10px;">计算机网络</a>
-    </div>
-  </div>
 
-  
+
+
+     
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-  </div>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/07/02/Mac-OS上搭建虚拟机集群/">Mac OS上搭建网络连通的虚拟机集群😊</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/13/React实现异步加载数据/">React实现异步加载数据</a>
-          </li>
-        
-          <li>
-            <a href="/2018/06/11/First-React-Project/">First React Project</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/13/使用Hexo在github-io搭建博客/">使用Hexo在github.io搭建博客</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+		
+		2018		
+	
+		XiaoHaoxing
+		<br>
+
+		Theme By
+		<a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>	
+		</div>			
+	 
+</footer>   
 
   
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Haoxing Xiao<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">home</a>
-  
-    <a href="/archives" class="mobile-nav-link">archives</a>
-  
-    <a href="/tags" class="mobile-nav-link">tags</a>
-  
-</nav>
-    
-<script>
-  var disqus_shortname = 'xiaohaoxing-github-io';
-  
-  var disqus_url = 'http://xiaohaoxing.github.io/2018/06/13/React实现异步加载数据/';
-  
-  (function(){
-    var dsq = document.createElement('script');
-    dsq.type = 'text/javascript';
-    dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-</script>
 
-
-<script src="/js/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
-</body>
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
 </html>
