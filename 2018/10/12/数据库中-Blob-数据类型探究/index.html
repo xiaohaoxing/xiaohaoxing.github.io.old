@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  数据库中 Blob 数据类型探究 |   XHX 博客 </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-nav">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <img class="header-logo-img" src="/images/head.JPG">
+      </a>
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <section class="main">  
+          
+
+          <article class="post">
+  
+	<div class="post-header">
+
+	<p class="post-title">	
+		数据库中 Blob 数据类型探究
+	</p>
+			
+
+	<div class="meta-info">	
+	<span>
+		Oct 12, 2018
+	</span>
+
+	
+	
+		<i class="iconfont icon-words"></i>
+		<span>
+			3235
+		</span>
+	
+</div>
+
+</div> 
+	 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​    晚上，室友在谈到今天面试的时候说到面试官提问如何在数据库中保存图像。他回答文件操作并保存路径，结果并不是面试官想要的结果，提示使用 Blob 数据类型。我对此就产生了兴趣，于是就有了今晚的一系列探究。</p>
+<h2 id="一、Blob-类型是什么"><a href="#一、Blob-类型是什么" class="headerlink" title="一、Blob 类型是什么"></a>一、Blob 类型是什么</h2><p>​    Blob 全称 Binary Large Object，二进制大对象，是一个可以储存二进制文件的容器。按照设计者的想法，它存在的目的是想让文件管理器不去理会数据是什么，而去关系如何处理它。</p>
+<p>​    Blob 类型应用在数据库中常见一共有4种类型：TinyBlob，Blob，MediumBlob，LongBlob。分别能储存的大小为：255B，64KB，16MB，4GB。而且 Java 编程语言中 SQL 库也对其有较为友好的支持。让我感觉储存图像信息有了新的解决方案。</p>
+<a id="more"></a>
+<p>​    以往做 web 项目的时候，上传用户头像这种图像信息一般都采用表单上传，文件保存，生成 UUID，保存路径+文件名字段在 UserInfo 表中这一系列方式去实现。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (Object i : items) &#123;</span><br><span class="line">    FileItem item = (FileItem) i;</span><br><span class="line">    <span class="keyword">if</span> (!item.isFormField()) &#123;</span><br><span class="line">        String fullName = item.getName();</span><br><span class="line">        <span class="comment">//取得上传文件以后的存储路径</span></span><br><span class="line">        String appendix = fullName.substring((fullName.lastIndexOf(<span class="string">'.'</span>)), fullName.length());</span><br><span class="line">        <span class="comment">//图像文件名采用对 rid + uid 的32位 MD5 编码，充分散列。</span></span><br><span class="line">        img = utils.Encoder.string2MD5(<span class="string">""</span> + rid + uid) + appendix;</span><br><span class="line">        <span class="comment">//上传文件以后的存储路径</span></span><br><span class="line">        String path = request.getRealPath(<span class="string">"/img/custom"</span>) + File.separatorChar + img;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//上传文件</span></span><br><span class="line">        File uploaderFile = <span class="keyword">new</span> File(path);</span><br><span class="line">        item.write(uploaderFile);</span><br><span class="line">        <span class="comment">//上传成功信息</span></span><br><span class="line">        System.out.println(<span class="string">"custom上传成功！文件位置："</span> + path);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//params正常，插入数据库</span></span><br><span class="line">CustomDesign.addOne(rid, uid, <span class="string">"/img/custom/"</span>+img, desp, title);</span><br><span class="line">MessageDispatcher.message(response, <span class="string">"success"</span>, <span class="string">"上传成功！"</span>, <span class="string">"require_detail.jsp?rid="</span> + rid);</span><br></pre></td></tr></table></figure>
+<p>​    现在了解到有这种数据类型之后就可以尝试一下新的方式。</p>
+<h2 id="二、使用-Blob-保存文件"><a href="#二、使用-Blob-保存文件" class="headerlink" title="二、使用 Blob 保存文件"></a>二、使用 Blob 保存文件</h2><p>​    因为 Blob 类型数据可能会很大，而且是流式，因此<code>Statement.execute(String)</code>的方式不能传递数据，因此需要使用<code>java.util.sql.PreparedStatement</code>的占位符实现 Blob 对象的传入。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setHeaderTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> uid = <span class="number">1</span>;</span><br><span class="line">        Connection conn;</span><br><span class="line">        PreparedStatement statement;</span><br><span class="line">        File f = <span class="keyword">new</span> File(<span class="string">"/Users/XX/Downloads/test.jpg"</span>);</span><br><span class="line">        <span class="keyword">if</span> (f.exists()) &#123;</span><br><span class="line">            InputStream out = <span class="keyword">new</span> FileInputStream(f);</span><br><span class="line">            Class.forName(CLASS_NAME).newInstance();</span><br><span class="line">            conn = DriverManager.getConnection(CONNECTION + <span class="string">"/"</span> + DB_NAME + <span class="string">"?user="</span> + username + <span class="string">"&amp;password="</span> + password);</span><br><span class="line">            statement = conn.prepareStatement(<span class="string">"INSERT INTO user_header VALUES(?, ?);"</span>);</span><br><span class="line">            statement.setInt(<span class="number">1</span>, uid);</span><br><span class="line">            statement.setBlob(<span class="number">2</span>, out);</span><br><span class="line">            <span class="keyword">int</span> result = statement.executeUpdate();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (result &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">"success."</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"failed."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"file not exist."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>​    这部分代码没有什么复杂的地方，只是个简单的执行 SQL 的过程。就不解释了。最后的结果在控制台显示”success.”，进入到数据库中也有相应的字段和数据内容。</p>
+<p><img src="http://obxrcybsg.bkt.clouddn.com/blog/Blob_data.png" alt="MySQL workbench 显示 Blob 数据内容"></p>
+<h2 id="三、读取-Blob-到-web"><a href="#三、读取-Blob-到-web" class="headerlink" title="三、读取 Blob 到 web"></a>三、读取 Blob 到 web</h2><p>​    按说这种数据类型探究到这里就差不多了，但是遇到新事物总不想浅尝辄止，于是我又想到了一个常见的应用场景：如何在数据库中读取到 Blob 类型的图像，并且显示在页面上呢？</p>
+<p>​    好的设计应该是对上层隐藏细节，最好的接口方式应该是：提供一个RESTful API，访问接口就会返回一个ContentType 为 image 的图像文件。这样前端开发者只要在页面显示图像位置丢一个 URI，图像就会显示出来。使用体验和使用图像文件一样无忧。</p>
+<p>​    这样一来，这个接口的基本结构就差不多如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserHeaderService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/header"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getHeader</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span> </span>&#123;</span><br><span class="line">        String s_uid = request.getParameter(<span class="string">"uid"</span>);</span><br><span class="line">        Connection conn;</span><br><span class="line">        PreparedStatement statement;</span><br><span class="line">        <span class="keyword">int</span> uid = Integer.parseInt(s_uid);</span><br><span class="line">        <span class="comment">// 说明文档类型</span></span><br><span class="line">        response.setContentType(<span class="string">"image/jpeg"</span>);</span><br><span class="line">        ……</span><br><span class="line">        ……</span><br><span class="line">        ……</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    剩下就是如何在数据库中读取数据并返回:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">statement = conn.prepareStatement(<span class="string">"SELECT header FROM user_header WHERE uid = ?"</span>);</span><br><span class="line">statement.setInt(<span class="number">1</span>, uid);</span><br><span class="line">ResultSet rs = statement.executeQuery();</span><br><span class="line"><span class="keyword">if</span>(rs.next()) &#123;</span><br><span class="line">    Blob result = rs.getBlob(<span class="number">1</span>);</span><br><span class="line">    InputStream blobIn = result.getBinaryStream();</span><br><span class="line">    OutputStream out = response.getOutputStream();</span><br><span class="line">    <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) result.length()];</span><br><span class="line">    blobIn.read(bytes, <span class="number">0</span>, bytes.length);</span><br><span class="line">    out.write(bytes);</span><br><span class="line">    out.flush();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    启动 tomcat 运行 servlet 容器，并且在浏览器中访问<a href="#">localhost:8080/header?uid=1</a>，就可以看到刚刚上传的图像啦。</p>
+<h3 id="TIP"><a href="#TIP" class="headerlink" title="TIP"></a>TIP</h3><p>​    📝一定要注意：普通的 Blob 类型，只有64KB 的容量！实际上这个容量非常小，我这边一个600*600的表情包都超过了容量，导致储存的 Blob 字段数据是残缺的，浪费了很多时间排查错误……</p>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+  <div class="post-footer-other">
+      <span class="post-footer-item">
+         
+      </span>           
+      <span class="post-footer-item">
+        
+	
+<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=21d601593a1de"></script>
+	
+	<span class="share-btn">
+	<span class="iconfont icon-share"></span>
+	</span>
+
+
+	<div class="-mob-share sildeUpMin">
+		<div class="-mob-inner">
+		   			             
+            <a class="iconfont icon-share-qq -mob-share-link"></a>		
+     	   			             
+            <a class="iconfont icon-share-weixin -mob-share-link"></a>		
+     	   			             
+            <a class="iconfont icon-share-weibo -mob-share-link"></a>		
+     	   
+		</div>
+	</div>	
+
+      </span>           
+  </div>  
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/Database/">Database</a> <a class="tag-link" href="/tags/Java/">Java</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  
+  
+    <div class="post-footer-link">
+      <a href="/2018/09/26/java-如何选择最具体的方法执行（翻译）/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2018/09/26/java-如何选择最具体的方法执行（翻译）/">
+          java 如何选择最具体的方法执行（翻译）</a>
+      </a>
+    </div>
+  
+</nav>
+ 
+	
+
+
+    
+    <div id="disqus_thread"></div>
+
+    <script>
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://'+'xiaohaoxing-github-io'+'.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());    
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+
+    <noscript>Please enable JavaScript to view the  <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+
+
+	
+</article>
+
+          </section> 
+      </div>            
+    
+    <a id="backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.ico">   
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+		
+		2018		
+	
+		XiaoHaoxing
+		<br>
+
+		Theme By
+		<a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>	
+		</div>			
+		<script src="https://s19.cnzz.com/z_stat.php?id=1274862886&web_id=1274862886" language="JavaScript"></script>
+</footer>   
+
+  
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>
