@@ -110,7 +110,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet</span>(urlPatterns = <span class="string">"/steps"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StepApi</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span>&#123;</span><br><span class="line">        response.setCharacterEncoding(<span class="string">"utf-8"</span>);</span><br><span class="line">        response.setHeader(<span class="string">"Access-Control-Allow-Origin"</span>, <span class="string">"*"</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//get the data;</span></span><br><span class="line">        List&lt;StepModel&gt; steps = getStepData();</span><br><span class="line">        String json = JSONObject.toJSONString(steps);</span><br><span class="line">        <span class="comment">//+延时</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            PrintWriter out = response.getWriter();</span><br><span class="line">            out.append(json);</span><br><span class="line">            out.flush();</span><br><span class="line">            out.close();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>​    为了更好的观察效果，我们对这个接口加上 1S 的延迟。</p>
 <p>​    结果如下（假设我们做的是支付宝提现的步骤）：</p>
-<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/steps-api-response.png" alt="请求结果"></p>
+<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/steps-api-response.png" alt="请求结果"></p>
 <h1 id="二、React-组件的更新"><a href="#二、React-组件的更新" class="headerlink" title="二、React 组件的更新"></a>二、React 组件的更新</h1><p>​    这里我们主要用到的一个方法是：componentDidMount()。顾名思义，就是组件加载完毕之后执行的方法。我们这里顺便用上了 ES6 的Promise 语法（实际作用有待验证！）</p>
 <p>​    首先写一个通用的获取数据方法readData：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> readData = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getSteps</span>(<span class="params">url</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> response = <span class="keyword">await</span> fetch(url);</span><br><span class="line">    <span class="keyword">let</span> json = <span class="keyword">await</span> response.text();</span><br><span class="line">    <span class="keyword">return</span> json;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -135,12 +135,12 @@
 <blockquote>
 <p>​    (我的运行结果)</p>
 </blockquote>
-<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/react-async-request.mp4" alt=""></p>
+<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/react-async-request.mp4" alt=""></p>
 <p>​    如果没有按照我们期望的显示怎么办？☹️我们就有必要对前端进行调试了。调试的方法也很简单，我们监控 state 的变化情况，就掌控了运行有没有按照我们的计划运行。我们在 render 的 return 之前增加一行语句：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">debugger</span>;</span><br></pre></td></tr></table></figure>
 <p>​    打开浏览器的开发者工具，刷新页面。</p>
 <p>​    这样，浏览器在运行到这里的时候就会自动停止下来，进入断点。这个时候再在浏览器的调试器界面监视 <code>this.state</code> 就可以看到数据是否被正确取出。</p>
-<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/safari-debugger.png" alt=""></p>
+<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/safari-debugger.png" alt=""></p>
 <p>​    如上图，我们就可以看到，第一次进入 debugger 的时候数据是 placeholder 里的，第二次的时候就是来自于我们异步请求的数据了。</p>
 <h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>​    数据是组件的灵魂。我们采用异步的方式去加载组件数据，在网络加载缓慢的情况下仍然可以预览到提示信息，效果等同于 img 标签的 alt。也比较符合现在异步加载的趋势。</p>
 <h1 id="五、后续"><a href="#五、后续" class="headerlink" title="五、后续"></a>五、后续</h1><p>​    计划将这个项目部署到 github，并且在项目基础上进一步完善。能做出一个完整的项目。</p>
@@ -312,8 +312,10 @@
 		
 		<div class="footer-copyright">
 		&copy;
+				
+		2018-
 		
-		2018		
+		2019		
 	
 		XiaoHaoxing
 		<br>

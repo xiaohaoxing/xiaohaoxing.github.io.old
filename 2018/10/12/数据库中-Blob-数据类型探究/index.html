@@ -115,7 +115,7 @@
 <h2 id="二、使用-Blob-保存文件"><a href="#二、使用-Blob-保存文件" class="headerlink" title="二、使用 Blob 保存文件"></a>二、使用 Blob 保存文件</h2><p>​    因为 Blob 类型数据可能会很大，而且是流式，因此<code>Statement.execute(String)</code>的方式不能传递数据，因此需要使用<code>java.util.sql.PreparedStatement</code>的占位符实现 Blob 对象的传入。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setHeaderTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> uid = <span class="number">1</span>;</span><br><span class="line">        Connection conn;</span><br><span class="line">        PreparedStatement statement;</span><br><span class="line">        File f = <span class="keyword">new</span> File(<span class="string">"/Users/XX/Downloads/test.jpg"</span>);</span><br><span class="line">        <span class="keyword">if</span> (f.exists()) &#123;</span><br><span class="line">            InputStream out = <span class="keyword">new</span> FileInputStream(f);</span><br><span class="line">            Class.forName(CLASS_NAME).newInstance();</span><br><span class="line">            conn = DriverManager.getConnection(CONNECTION + <span class="string">"/"</span> + DB_NAME + <span class="string">"?user="</span> + username + <span class="string">"&amp;password="</span> + password);</span><br><span class="line">            statement = conn.prepareStatement(<span class="string">"INSERT INTO user_header VALUES(?, ?);"</span>);</span><br><span class="line">            statement.setInt(<span class="number">1</span>, uid);</span><br><span class="line">            statement.setBlob(<span class="number">2</span>, out);</span><br><span class="line">            <span class="keyword">int</span> result = statement.executeUpdate();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (result &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">"success."</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">"failed."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">"file not exist."</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>​    这部分代码没有什么复杂的地方，只是个简单的执行 SQL 的过程。就不解释了。最后的结果在控制台显示”success.”，进入到数据库中也有相应的字段和数据内容。</p>
-<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/Blob_data.png" alt="MySQL workbench 显示 Blob 数据内容"></p>
+<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/Blob_data.png" alt="MySQL workbench 显示 Blob 数据内容"></p>
 <h2 id="三、读取-Blob-到-web"><a href="#三、读取-Blob-到-web" class="headerlink" title="三、读取 Blob 到 web"></a>三、读取 Blob 到 web</h2><p>​    按说这种数据类型探究到这里就差不多了，但是遇到新事物总不想浅尝辄止，于是我又想到了一个常见的应用场景：如何在数据库中读取到 Blob 类型的图像，并且显示在页面上呢？</p>
 <p>​    好的设计应该是对上层隐藏细节，最好的接口方式应该是：提供一个RESTful API，访问接口就会返回一个ContentType 为 image 的图像文件。这样前端开发者只要在页面显示图像位置丢一个 URI，图像就会显示出来。使用体验和使用图像文件一样无忧。</p>
 <p>​    这样一来，这个接口的基本结构就差不多如下：</p>
@@ -173,6 +173,15 @@
 
 
 <nav class="post-footer-nav">
+  
+    <div class="post-footer-link">
+      <a href="/2019/01/07/SpringBoot-部署记录/" id="post-nav-newer" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">newer</strong>
+           
+          <a class="post-nav-title" href="/2019/01/07/SpringBoot-部署记录/">
+          SpringBoot 部署记录</a>
+      </a>
+    </div>
   
   
     <div class="post-footer-link">
@@ -282,8 +291,10 @@
 		
 		<div class="footer-copyright">
 		&copy;
+				
+		2018-
 		
-		2018		
+		2019		
 	
 		XiaoHaoxing
 		<br>

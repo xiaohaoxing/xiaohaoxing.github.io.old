@@ -119,6 +119,54 @@
 	   
 	<div class="article-header">
 	    
+		<a class="article-title" href="/2019/01/07/SpringBoot-部署记录/">SpringBoot 部署记录</a>  
+	       
+		 
+
+		<div class="article-meta">
+			<time>Jan 07, 2019</time>
+			
+				<span class="iconfont icon-star"></span>
+				            
+						<a class="article-tag" href="/tags/Java/">Java</a>           
+				            
+						<a class="article-tag" href="/tags/SpringBoot/">SpringBoot</a>           
+				
+			
+		</div>
+	</div>
+
+
+	
+
+    
+	<div class="typo article-excerpt">	
+		 
+			<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>   跟着书上的教程完成了一个简单的SpringBoot的用户管理的项目。想用github来实现版本控制，同时接触一点简单的发布版本的知识。所以打算发布一个RELEASE试试。</p>
+<h1 id="1-发布"><a href="#1-发布" class="headerlink" title="1. 发布"></a>1. 发布</h1><p>在mac的IntelliJ IDEA将项目同步到github上，然后给这个commit发布了一个RELEASE。具体的发布RELEASE其实没有什么知识，跟着github的指引就行了：选择一个branch，填写版本号（建议的命名格式：v1,0，v1.1-alpha等），填写发布信息（增加了什么功能，有哪些修改等信息），添加版本附件（比如desktop应用的exe，java的包jar或war等），就可以直接发布了。</p>
+<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/release-config.jpg" alt="版本发布编辑界面"></p>
+<p>   但是我build的jar包一直上传失败！客户端只能先编译再部署了！</p>
+<h1 id="2-部署"><a href="#2-部署" class="headerlink" title="2. 部署"></a>2. 部署</h1><p>   紧接着就需要在客户机上部署了。切换到windows机器上，先在浏览器上下载下来source code 包（包括zip格式和tar.gz格式）。这里为了方便我直接用windows的winzip软件解压了，而没有用Linux的解压命令。然后打开Windows Subsystem Linux，开始从源码构建部署项目。<br>   我开始就用的开发机上的<code>gradle build</code>命令去运行，提示：command gradle not found! 赶紧    <code>sudo apt-get install gradle</code>装一下gradle。重新运行上述命令：build failed! Need gradle version 4.4+,found 3.4.这就很奇怪了，我用apt-get获取的为什么还不是最新版本的？改用命令：<code>sudo apt-get install gradle=4.4</code>。提示：version 4.4 not found! 难道linux的gradle版本系列和mac上的不同？这时候想到书上看过的一条信息：用gradlew（Linux系统）或者gradlew.bat命令运行Gradle Wrapper脚本，就可以规避由环境不一致引起的编译失败问题！（书上的坑都被我踩了个遍！）于是去运行<code>./gradlew</code>。运行成功！然后用<code>./gradlew build</code>去重新构建项目。<br>   等待Build Success信息出来。这时候项目目录下就已经生成了build目录，打开build/lib， 看到我们的项目生成的jar包已经在这里了！执行<code>java -jar SpringBootBook-1.1.0.RELEASE.jar</code>去部署项目！<br><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/deploy-result.jpg" alt="部署结果"></p>
+<h1 id="3-运行"><a href="#3-运行" class="headerlink" title="3. 运行"></a>3. 运行</h1><p>   等控制台显示出:Started Application in XX.XX s.就表示项目已经成功部署在机器上了！这时候去访问网页就能看到项目的结果了：<br><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/run-result.jpg" alt="运行结果"></p>
+<h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h1><p>   以上就是项目的一个版本从发布到部署运行的全过程，可能会有一些坑需要踩。不过我个人觉得 Gradle 提供的构建方式对部署已经非常友好了，以上的过程基本比较顺利的一晚上就完成了。和 github 的 release 配合起来对于运维来说体验极好！该项目后续更多的是对 Spring Boot 的深入探究，部署过程将不再是重点了！</p>
+
+		  	  
+	</div>
+
+	<div class="article-bottom">
+		<a class="article-readmore" href="/2019/01/07/SpringBoot-部署记录/">Continue</a> 	
+	</div>	
+    
+</article>     
+     	
+    	  	
+  		
+    			
+
+<article class="article">		
+	   
+	<div class="article-header">
+	    
 		<a class="article-title" href="/2018/10/12/数据库中-Blob-数据类型探究/">数据库中 Blob 数据类型探究</a>  
 	       
 		 
@@ -433,7 +481,7 @@
      <div class="mobile-menu">      
 
       
-      <img class="mobile-menu-icon" src="/images/favicon.ico">   
+      <img class="mobile-menu-icon lazyload" src="/images/placeholder.png" data-src="/images/favicon.ico">   
       
 
          
@@ -483,8 +531,10 @@
 		
 		<div class="footer-copyright">
 		&copy;
+				
+		2018-
 		
-		2018		
+		2019		
 	
 		XiaoHaoxing
 		<br>

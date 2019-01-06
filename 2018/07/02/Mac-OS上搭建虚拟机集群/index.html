@@ -111,11 +111,11 @@
 <p>​    至于在 VirtualBox 上安装 Ubuntu 的过程，全程按照他提示做就行了，设置好用户名和密码。需要注意的地方是：</p>
 <h4 id="第一步的选择语言，请不要选择中文！"><a href="#第一步的选择语言，请不要选择中文！" class="headerlink" title="第一步的选择语言，请不要选择中文！"></a><strong>第一步的选择语言，请不要选择中文！</strong></h4><p>​    后续的步骤还有选择语言界面，到时再选择中文就行了。血的教训：第一步就选择了中文会导致安装过程被中断，无法安装。当然，一个仅有命令行的 OS，选择英语也不构成上手难度，推荐全英文，避免潜在的任何语言问题！</p>
 <h1 id="三、配置虚拟机网络设置"><a href="#三、配置虚拟机网络设置" class="headerlink" title="三、配置虚拟机网络设置"></a>三、配置虚拟机网络设置</h1><p>​    这一步是重点。</p>
-<h5 id="先在-VirtualBox-中设置项中添加一个主机网络配置："><a href="#先在-VirtualBox-中设置项中添加一个主机网络配置：" class="headerlink" title="先在 VirtualBox 中设置项中添加一个主机网络配置："></a>先在 VirtualBox 中设置项中添加一个主机网络配置：</h5><p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/vm-add-host-only-config.png" alt="添加主机网络"></p>
-<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/vm-host-only-config.png" alt="仅主机模式网络"></p>
+<h5 id="先在-VirtualBox-中设置项中添加一个主机网络配置："><a href="#先在-VirtualBox-中设置项中添加一个主机网络配置：" class="headerlink" title="先在 VirtualBox 中设置项中添加一个主机网络配置："></a>先在 VirtualBox 中设置项中添加一个主机网络配置：</h5><p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/vm-add-host-only-config.png" alt="添加主机网络"></p>
+<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/vm-host-only-config.png" alt="仅主机模式网络"></p>
 <p>​    记住这里的 IPv4 的 IP 哦，后面设置各个虚拟机的网络的时候还会用到！</p>
-<h5 id="再将虚拟机的网络设置修改为如下2个网卡的配置："><a href="#再将虚拟机的网络设置修改为如下2个网卡的配置：" class="headerlink" title="再将虚拟机的网络设置修改为如下2个网卡的配置："></a>再将虚拟机的网络设置修改为如下2个网卡的配置：</h5><p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/vm-eth1-config.png" alt="网卡1配置"></p>
-<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/vm-eth2-config.png" alt="网卡2配置"></p>
+<h5 id="再将虚拟机的网络设置修改为如下2个网卡的配置："><a href="#再将虚拟机的网络设置修改为如下2个网卡的配置：" class="headerlink" title="再将虚拟机的网络设置修改为如下2个网卡的配置："></a>再将虚拟机的网络设置修改为如下2个网卡的配置：</h5><p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/vm-eth1-config.png" alt="网卡1配置"></p>
+<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/vm-eth2-config.png" alt="网卡2配置"></p>
 <p>​    然后就可以进入系统继续操作了。</p>
 <h5 id="在虚拟机内输入"><a href="#在虚拟机内输入" class="headerlink" title="在虚拟机内输入"></a>在虚拟机内输入</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig -a</span><br></pre></td></tr></table></figure>
 <p>​    查看所有网卡的状态，这个时候应该有2个虚拟网卡分别是<code>enp0s3</code>和<code>enp0s8</code>，他们对应网卡1和网卡2，分别用于和主机通信与和外网通信。</p>
@@ -125,9 +125,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>The loopback network interface</span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Host-only interface</span><br><span class="line">auto enp0s3 </span><br><span class="line">iface enp0s3 inet static</span><br><span class="line">	address		192.168.56.101</span><br><span class="line">	netmask		255.255.255.0</span><br><span class="line">	network		192.168.56.0</span><br><span class="line">	boardcast	192.168.56.255</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>NAT interface</span><br><span class="line">auto enp0s8</span><br><span class="line">iface enp0s8 inet dhcp</span><br></pre></td></tr></table></figure>
 <p>​    用人话说就是：把 host only 网卡修改为固定 IP，把 NAT 网卡修改为 自动分配 IP。注意这里设定的 IP 的特点：跟上面 VirtualBox 添加的 Host-only 配置要保证在同一个网段！这样才能组成一个子网络。</p>
 <p>​        重新启动虚拟机，再次输入 <code>ifconfig</code>查看网卡状态，是否有一个 IP 为<code>192.168.56.101</code>的名为<code>enp0s3</code>的网卡？和一个分配了 IPv4 地址的名为<code>enp0s8</code>的网卡？</p>
-<p><img src="/images/placeholder.png" alt="ifconfig 结果" data-src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/ifconfig-result.png" class="lazyload"></p>
+<p><img src="/images/placeholder.png" alt="ifconfig 结果" data-src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/ifconfig-result.png" class="lazyload"></p>
 <p>​    紧接着在虚拟机内分别 <code>ping</code>主机（192.168.56.1）和 baidu.com测试，最后都到了返回。</p>
-<p><img src="/images/placeholder.png" alt="ping 结果" data-src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/ping-result.png" class="lazyload"></p>
+<p><img src="/images/placeholder.png" alt="ping 结果" data-src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/ping-result.png" class="lazyload"></p>
 <h1 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h1><p>​    总体上说这一篇的内容不多也不复杂，但是中间走了很多弯路，踩了很多坑。其实做很多东西都是一样，坑踩过了才会不再掉进去，所以不管做了什么，留下一份记录既是对别人的帮助也是对自己的激励！😆</p>
 <p>​    最近还在做 redux 的TodoList 尝试，机器学习算法的学习以及众包论文的阅读和思考。后续可能更偏向于理论知识的学习了。</p>
   	
@@ -297,8 +297,10 @@
 		
 		<div class="footer-copyright">
 		&copy;
+				
+		2018-
 		
-		2018		
+		2019		
 	
 		XiaoHaoxing
 		<br>
