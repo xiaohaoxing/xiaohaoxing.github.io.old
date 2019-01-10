@@ -92,7 +92,7 @@
 	
 		<i class="iconfont icon-words"></i>
 		<span>
-			741
+			899
 		</span>
 	
 </div>
@@ -108,7 +108,7 @@
 					<p>本篇文章是对笔者的项目<a href="https://github.com/xiaohaoxing/SpringBootBook" target="_blank" rel="noopener">SpringBootBook</a>的配置文件备份。由于配置文件中有一些个性化的配置不能通用，如果放在项目中，不仅对于使用者来说无法运行，更会泄漏隐私，因此把配置项放在这里备份。运行之前请把内容复制放到项目的<code>src/main/resources/application.properties</code>文件内。</p>
 <a id="more"></a>
 <p>内容如下：</p>
-<h3 id="src-main-resources"><a href="#src-main-resources" class="headerlink" title="src/main/resources/"></a>src/main/resources/</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># Thymeleaf编码</span><br><span class="line">spring.thymeleaf.encoding=UTF-8</span><br><span class="line"># 热部署静态文件</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line"># 使用 HTML5 标准</span><br><span class="line">spring.thymeleaf.mode=HTML</span><br><span class="line"></span><br><span class="line">server.port=8081</span><br><span class="line"></span><br><span class="line">logging.level.root=info</span><br><span class="line"></span><br><span class="line">spring.h2.console.enabled=true</span><br><span class="line"># the data source</span><br><span class="line">spring.datasource.url=jdbc:mysql://localhost/blog?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=utf-8</span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=[你自己的密码/Your mysql password]</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver</span><br><span class="line"></span><br><span class="line"># JPA</span><br><span class="line">spring.jpa.show-sql=true</span><br><span class="line">spring.jpa.hibernate.ddl-auto=create-drop</span><br></pre></td></tr></table></figure>
+<h3 id="src-main-resources"><a href="#src-main-resources" class="headerlink" title="src/main/resources/"></a>src/main/resources/</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># Thymeleaf编码</span><br><span class="line">spring.thymeleaf.encoding=UTF-8</span><br><span class="line"># 热部署静态文件</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line"># 使用 HTML5 标准</span><br><span class="line">spring.thymeleaf.mode=HTML</span><br><span class="line"></span><br><span class="line">server.port=8081</span><br><span class="line"></span><br><span class="line">logging.level.root=info</span><br><span class="line"></span><br><span class="line">spring.h2.console.enabled=true</span><br><span class="line"># the data source</span><br><span class="line">spring.datasource.url=jdbc:mysql://localhost/blog?useSSL=false&amp;serverTimezone=UTC&amp;characterEncoding=utf-8</span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=[你自己的密码/Your mysql password]</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver</span><br><span class="line"></span><br><span class="line"># JPA</span><br><span class="line">spring.jpa.show-sql=true</span><br><span class="line">spring.jpa.hibernate.ddl-auto=create-drop</span><br><span class="line"></span><br><span class="line"># Elastic Search 服务地址</span><br><span class="line">spring.data.elasticsearch.cluster-nodes=localhost:9300</span><br><span class="line"># 连接超时</span><br><span class="line">spring.data.elasticsearch.properties.transport.tcp.connect_timeout=120s</span><br></pre></td></tr></table></figure>
   	
 					
 	  </div>     
@@ -234,7 +234,7 @@
     
     <div class="search-container sildeUpMin">
         <div class="search-header">
-            <input type="text" placeholder="输入你想搜索的" id="search-input" class="search-input">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
             <span class="search-cancel">
                 <i class="iconfont icon-cancel">
             </i></span>
@@ -251,31 +251,31 @@
          
             
 
-            <a class="mobile-menu-link" href="/">首页
+            <a class="mobile-menu-link" href="/">Home
             </a>
             
          
             
 
-            <a class="mobile-menu-link" href="/archives">归档
+            <a class="mobile-menu-link" href="/archives">Archives
             </a>
             
          
             
 
-            <a class="mobile-menu-link" href="/tags">标签
+            <a class="mobile-menu-link" href="/tags">Tags
             </a>
             
          
             
 
-            <a class="mobile-menu-link" href="/about">关于
+            <a class="mobile-menu-link" href="/about">About
             </a>
             
          
                           
 
-            <a class="mobile-menu-link mobile-menu-search" href="#">搜索 </a>                 
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
             
          
       

@@ -92,7 +92,7 @@
 	
 		<i class="iconfont icon-words"></i>
 		<span>
-			2270
+			2265
 		</span>
 	
 </div>
@@ -166,15 +166,16 @@
 <li>否则，方法调用就是<code>ambiguous</code>的，编译时错误抛出。</li>
 </ul>
 <p><a name="appendix"></a></p>
-<h2 id="Appendix："><a href="#Appendix：" class="headerlink" title="Appendix："></a>Appendix：</h2><ol>
+<p>##Appendix：</p>
+<ol>
 <li><p>继承等价的签名:</p>
 <p> A 擦除后和 B 相同，则 A 是 B 的子方法签名，B 擦除后也和 A 相同，则两者继承等价。</p>
 </li>
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x, y;</span><br><span class="line">    <span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">move</span><span class="params">(<span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">move</span><span class="params">(<span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123; x += dx; y += dy; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>❌同一个类里的继承等价会导致编译时错误。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CollectionConverter</span> </span>&#123;</span><br><span class="line">    <span class="function">List <span class="title">toList</span><span class="params">(Collection c)</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Overrider</span> <span class="keyword">extends</span> <span class="title">CollectionConverter</span> </span>&#123;</span><br><span class="line">    <span class="function">List <span class="title">toList</span><span class="params">(Collection c)</span> </span>&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>❗️这里的 CollectionConverter 如果修改就会导致 Overrider 代码出错。<br>&lt;/a&gt;</p>
-<h2 id="References"><a href="#References" class="headerlink" title="References:"></a>References:</h2><p>[1]: <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.12.2.5" target="_blank" rel="noopener">https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.12.2.5</a> Choosing the Most Specific Method<br>[2]: <a href="http://cr.openjdk.java.net/~dlsmith/jsr335-0.6.1/D.html" target="_blank" rel="noopener">http://cr.openjdk.java.net/~dlsmith/jsr335-0.6.1/D.html</a> Lambda Specification, Part D: Poly Expressions<br>[3]: <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.4.2" target="_blank" rel="noopener">https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.4.2</a> Method Signature</p>
+<p>❗️这里的 CollectionConverter 如果修改就会导致 Overrider 代码出错。<br></p>
+<p>##References:<br>[1]: <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.12.2.5" target="_blank" rel="noopener">https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.12.2.5</a> Choosing the Most Specific Method<br>[2]: <a href="http://cr.openjdk.java.net/~dlsmith/jsr335-0.6.1/D.html" target="_blank" rel="noopener">http://cr.openjdk.java.net/~dlsmith/jsr335-0.6.1/D.html</a> Lambda Specification, Part D: Poly Expressions<br>[3]: <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.4.2" target="_blank" rel="noopener">https://docs.oracle.com/javase/specs/jls/se8/html/jls-8.html#jls-8.4.2</a> Method Signature</p>
   	
 					
 	  </div>     
@@ -309,7 +310,7 @@
     
     <div class="search-container sildeUpMin">
         <div class="search-header">
-            <input type="text" placeholder="输入你想搜索的" id="search-input" class="search-input">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
             <span class="search-cancel">
                 <i class="iconfont icon-cancel">
             </i></span>
@@ -326,31 +327,31 @@
          
             
 
-            <a class="mobile-menu-link" href="/">首页
+            <a class="mobile-menu-link" href="/">Home
             </a>
             
          
             
 
-            <a class="mobile-menu-link" href="/archives">归档
+            <a class="mobile-menu-link" href="/archives">Archives
             </a>
             
          
             
 
-            <a class="mobile-menu-link" href="/tags">标签
+            <a class="mobile-menu-link" href="/tags">Tags
             </a>
             
          
             
 
-            <a class="mobile-menu-link" href="/about">关于
+            <a class="mobile-menu-link" href="/about">About
             </a>
             
          
                           
 
-            <a class="mobile-menu-link mobile-menu-search" href="#">搜索 </a>                 
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
             
          
       
