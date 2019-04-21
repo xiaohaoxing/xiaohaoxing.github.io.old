@@ -1,0 +1,551 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  
+  
+  <title>  PySpark 功能介绍 |   XHX 博客 </title>
+
+ 
+  
+    <link rel="icon" href="/images/favicon.ico">
+  
+
+
+  <link rel="stylesheet" href="/nayo.min.css"> 
+</head>  
+  <body>   
+    
+      <header class="header">
+	
+  <nav class="header-nav">        
+
+    <span class="iconfont icon-menu mobile-toggle"></span>   	
+
+    <div class="header-logo">
+      <a href="/">
+        <img class="header-logo-img" src="/images/head.JPG">
+      </a>
+    </div>
+
+    <div class="header-menu">          
+              
+          
+            <a class="header-menu-link" id="header-menu-home" href="/">
+              <i class="iconfont icon-home">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-archives" href="/archives">
+              <i class="iconfont icon-archives">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-tags" href="/tags">
+              <i class="iconfont icon-tags">  
+            </i></a>     
+          
+              
+          
+            <a class="header-menu-link" id="header-menu-about" href="/about">
+              <i class="iconfont icon-about">  
+            </i></a>     
+          
+              
+          
+              <a class="header-menu-link" id="header-menu-search">
+                <i class="iconfont icon-search">  
+              </i></a>
+          
+                  
+    </div>  
+    
+  </nav>
+</header>
+
+   
+
+      <div class="container">       
+          
+          
+            <section class="main">  
+          
+
+          <article class="post">
+  
+	<div class="post-header">
+
+	<p class="post-title">	
+		PySpark 功能介绍
+	</p>
+			
+
+	<div class="meta-info">	
+	<span>
+		Apr 22, 2019
+	</span>
+
+	
+	
+		<i class="iconfont icon-words"></i>
+		<span>
+			6760
+		</span>
+	
+</div>
+
+</div> 
+	 
+
+	  <div class="typo post-content slideDownMin">
+
+		
+
+			
+					<h1 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h1><h2 id="Spark"><a href="#Spark" class="headerlink" title="Spark:"></a>Spark:</h2><p>  是一个轻量级、快速的实时处理框架。内存计算来实时分析数据。Hadoop 只做批处理流程，缺乏实时的特点。Spark 可以做实时流处理，同时也关注批处理流程。</p>
+<p>  除了实时和批处理，Spark 还支持交互查询和交互算法。Spark 有自己运行应用的集群管理。影响着 Hadoop 的储存和运行。使用 HDFS 格式储存，也可以在 <strong>YARN</strong> 上运行 Spark 应用。</p>
+<h2 id="PySpark："><a href="#PySpark：" class="headerlink" title="PySpark："></a>PySpark：</h2><p>  Spark 是用 Scala 写的。Spark 社区为 Python 的支持写了一个工具：PySpark。使用 PySpark，就可以用 Python 语言跑 RDD 的 API，这是 Py4j 库的功劳。</p>
+<p>  PySpark 提供 PySpark Shell 用来连接 Python 的 API 和 Spark 的核心，并初始化 Spark 环境。现在大部分数据科学家和数据分析专家都用 python，因为它有丰富的库。将 Python 和 Spark 结合对他们来说是个福音。</p>
+<a id="more"></a>
+<h1 id="二、环境搭建"><a href="#二、环境搭建" class="headerlink" title="二、环境搭建"></a>二、环境搭建</h1><p><strong>（python 这一步可以直接用</strong> <strong>命令</strong> <strong>：</strong> <strong>pip install pyspark完成安装</strong> <strong>。）</strong></p>
+<p>  假设已经安装了 Java 和 Scala 环境，如下步骤是安装 PySpark 的：</p>
+<ol>
+<li><p>官网下载页面去下载最新版本的 Spark</p>
+</li>
+<li><p>wget  <a href="https://...XXX/XXX/Spark.tar.gz" target="_blank" rel="noopener">https://...XXX/XXX/Spark.tar.gz</a></p>
+</li>
+<li><p>解压 tar 文件，配置环境变量（假设解压到了/User/me/Applications/目录下）：</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SPARK_HOME = /User/me/Applications/spark-2.1.0</span><br><span class="line">PATH = <span class="variable">$PATH</span>:<span class="variable">$SPARK_HOME</span>/bin</span><br><span class="line">PYTHONPATH = <span class="variable">$SPARK_HOME</span>/python:<span class="variable">$SPARK_HOME</span>/python/lib/py4j-0.xx.xx:<span class="variable">$PYTHONPATH</span></span><br><span class="line">PATH = <span class="variable">$SPARK_HOME</span>/python:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+<p>  上述的设置在 linux 系统上可以用 export 命令去设置，可以写一个批处理文件：bashrc 后缀名的批处理文件。再用 source .bashrc 命令去运行批处理，就一次性设置所有环境变量了。</p>
+<p>  再运行./bin/pyspark 命令就可以打开PySpark Shell 界面了。</p>
+<h1 id="三、Spark-上下文对象：SparkContext"><a href="#三、Spark-上下文对象：SparkContext" class="headerlink" title="三、Spark 上下文对象：SparkContext"></a>三、Spark 上下文对象：SparkContext</h1><p>  SparkContext 是任何 Spark 功能的入口。运行Spark 应用的时候，先启动一个驱动程序，包含一个主函数，SparkContext 在这里初始化。然后驱动程序再在工人节点上的执行器内执行操作。</p>
+<p>  SparkContext 通过Py4J 启动 JVM，创建一个 JavaSparkContext 对象。默认PySpark 提供一个 SparkContext 对象，名字是 ‘sc’，所以创建新的 SparkContext 不会生效。</p>
+<p><img src="https://xiaohaoxing-1257815318.cos.ap-chengdu.myqcloud.com/blog/pyspark-principle.png" alt="Data Flow  : Local  SparkContext  Local FS  : Cluster  Spark  Worker  O  py4J  Socket  SparkContext  Spark  Worker  O  O  Python  Pipe  O  JVM "></p>
+<p>  这个数据流图描述的是 PySpark 和 JVM 所负责的部分的数据流。可以看出：JVM 负责了主机和分机的交互。而 python 做了最上层和最底层的具体工作。</p>
+<p><strong>SparkContext 的结构：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">pyspark</span>.<span class="title">SparkContext</span><span class="params">(</span></span></span><br><span class="line"><span class="class"><span class="params">	master = None,</span></span></span><br><span class="line"><span class="class"><span class="params">    appName = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    sparkHome = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    pyFiles = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    environment = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    batchSize = <span class="number">0</span>, </span></span></span><br><span class="line"><span class="class"><span class="params">    serializer = PickleSerializer<span class="params">()</span>, </span></span></span><br><span class="line"><span class="class"><span class="params">    conf = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    gateway = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    jsc = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    profiler_cls = &lt;class<span class="string">'pyspark.profiler.BasicProfiler'</span>&gt;</span></span></span><br><span class="line"><span class="class"><span class="params"> )</span></span></span><br></pre></td></tr></table></figure>
+<p><strong>参数：</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Master</td>
+<td>分机连接的 URL</td>
+</tr>
+<tr>
+<td>appName</td>
+<td>工作的名称</td>
+</tr>
+<tr>
+<td>sparkHome</td>
+<td>Spark 安装目录</td>
+</tr>
+<tr>
+<td>pyFiles</td>
+<td>发送给分机或添加到 PYTHONPATH 目录的 zip 或 py 文件</td>
+</tr>
+<tr>
+<td>Environment</td>
+<td>工作节点的环境变量</td>
+</tr>
+<tr>
+<td>batchSize</td>
+<td>多少个 Python 对象表示一个 Java 对象。      1： 关闭批处理      0：   自动选择      -1： 不限批处理大小</td>
+</tr>
+<tr>
+<td>Serializer</td>
+<td>RDD 序列化</td>
+</tr>
+<tr>
+<td>Conf</td>
+<td>设置 Spark 所有参数的L{SparkConf}对象</td>
+</tr>
+<tr>
+<td>Gateway</td>
+<td>使用现有的网关和   JVM，否则创建新的 JVM</td>
+</tr>
+<tr>
+<td>JSC</td>
+<td>JavaSparkContext   实例</td>
+</tr>
+<tr>
+<td>profiler_cls</td>
+<td>个性化配置的类，默认的是pyspark.profiler.BasicProfiler</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>  上述的参数，master 和 appname 是最常用的，示例初始化代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkContext</span><br><span class="line">sc = SparkContext</span><br></pre></td></tr></table></figure>
+<p><strong>第一个例子</strong></p>
+<p>  现在尝试对下载的 Spark 里的readme.md 做一个统计：有’a’ 和有’b’ 各自的行数是多少。</p>
+<p>  在Spark Shell 逐行写入如下的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">logFile = <span class="string">"file:///User/me/Applications/spark-2.1.0/README.md"</span></span><br><span class="line">logData = sc.textFile(logFile).cache()</span><br><span class="line">numAs = logData.filter(<span class="keyword">lambda</span> s: <span class="string">'a'</span> <span class="keyword">in</span> s).count()</span><br><span class="line">numBs = logData.filter(<span class="keyword">lambda</span> s: <span class="string">'b'</span> <span class="keyword">in</span> s).count()</span><br><span class="line"><span class="keyword">print</span> <span class="string">"Lines with a: %i, lines with b: %i"</span> % (numAs, numBs)</span><br></pre></td></tr></table></figure>
+<p>  可以得到输出结果：”Lines with a: 62, lines with b:30”</p>
+<p><strong>第二个例子</strong></p>
+<p>  上述的例子直接在 shell 里写。现在写一个 python 文件去做。</p>
+<ol>
+<li><p>首先写 firstapp.py，内容同上（加上 import 语句）。</p>
+</li>
+<li><p>然后运行命令：</p>
+</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$SPARK_HOME</span>/bin/spark-submit firstapp.py</span><br></pre></td></tr></table></figure>
+<p>  也可以得到上述的输出结果。</p>
+<h1 id="四、RDD"><a href="#四、RDD" class="headerlink" title="四、RDD"></a>四、RDD</h1><p>  在 Spark 平台上编写 Python 代码之前需要了解一个Spark非常重要的概念：RDD</p>
+<p>  RDD 全称是：Resilient Distributed Dataset，弹性分布式数据集。元素（等同于数据库中一条记录）在多个分机节点上并行运行和操作。RDD 是不可变元素，就是当你创建了 RDD 就不可以再改变他了。RDD 也有容错，为了避免任何错误，他们会自动恢复。你可以将一个具体的任务在 RDD 上分配复杂的操作。</p>
+<p>  有2类操作在 RDD 上分配任务：</p>
+<ol>
+<li><p><strong>转换</strong>（Transformation）</p>
+<p>在 RDD 上创建新的 RDD，Filter、groupBy 和 map 都是转换的操作。</p>
+</li>
+<li><p><strong>执行</strong>（Action）</p>
+<p>在 RDD 上执行操作，让 Spark 去计算并把结果发给驱动。</p>
+<p>先创建一个 PySpark RDD，下面是 PySpark RDD 对象的结构</p>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">pyspark</span>.<span class="title">RDD</span> <span class="params">(</span></span></span><br><span class="line"><span class="class"><span class="params">	jrdd,</span></span></span><br><span class="line"><span class="class"><span class="params">  ctx,     </span></span></span><br><span class="line"><span class="class"><span class="params">  jrdd_deserializer = AutoBatchedSerializer<span class="params">(PickleSerializer<span class="params">()</span>)</span> </span></span></span><br><span class="line"><span class="class"><span class="params">)</span></span></span><br></pre></td></tr></table></figure>
+<p>  用如下 python 代码创建一个数据集：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">words = sc.parallelize (</span><br><span class="line">	[<span class="string">"scala"</span>,     </span><br><span class="line">	<span class="string">"java"</span>,     </span><br><span class="line">	<span class="string">"hadoop"</span>,    </span><br><span class="line">    <span class="string">"spark"</span>,    </span><br><span class="line">    <span class="string">"akka"</span>,    </span><br><span class="line">    <span class="string">"spark vs hadoop"</span>,    </span><br><span class="line">    <span class="string">"pyspark"</span>,   </span><br><span class="line">    <span class="string">"pyspark and spark"</span>] </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>  对这个数据集的操作：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>释义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>count()</td>
+<td>返回这个数据集包含数据的数量</td>
+</tr>
+<tr>
+<td>collect()</td>
+<td>返回整个数据集</td>
+</tr>
+<tr>
+<td>foreach(f)</td>
+<td>逐个数据操作（f:自定义函数)</td>
+</tr>
+<tr>
+<td>filter(f)</td>
+<td>筛选</td>
+</tr>
+<tr>
+<td>map(f,preservesPartitioning = False)</td>
+<td>逐个数据操作并得到新的 RDD(如：给每个元素赋一个权重1 words.map(lambda x: (x, 1))</td>
+</tr>
+<tr>
+<td>reduce(f)</td>
+<td>特定的交互和结合二元操作后，元素被返回给 RDD。   from operator import add      nums.reduce(add)</td>
+</tr>
+<tr>
+<td>join(other,   numPartitions=None)</td>
+<td>很像SQL   的 join。同一个 key 的 value   会被合并得到同一个 key 对应一组 value。   x = sc.parallelize([(“spark”, 1),   (“hadoop”, 4)])      y = sc.parallelize([(“spark”, 2), (“hadoop”, 5)])      joined = x.join(y)       (‘spark’, (1, 2))</td>
+</tr>
+<tr>
+<td>cache()</td>
+<td>持久化储存   RDD，默认的级别是 MEMORY_ONLY   持久化：words.cache()       检查持久化：caching = words.persist().is_cached</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="五、广播和累加器"><a href="#五、广播和累加器" class="headerlink" title="五、广播和累加器"></a>五、广播和累加器</h1><p>  Spark 为并行处理提供变量共享。当驱动发送一个任务到分机上的执行器时，共享变量的拷贝就在分机的每一个节点上，以用来运行任务。</p>
+<p>  Spark 有2中共享变量的支持方法：</p>
+<ol>
+<li>广播（Broadcast）</li>
+<li>累加器（Accumulator）</li>
+</ol>
+<p><strong>广播</strong> <strong>：</strong></p>
+<p>  广播变量用来在所有节点上保存变量的拷贝。该变量缓存在所有机器上，并不随着任务分发到机器上。下面是 Broadcast 类的具体代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">pyspark</span>.<span class="title">Broadcast</span> <span class="params">(</span></span></span><br><span class="line"><span class="class"><span class="params">    sc = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    value = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    pickle_registry = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    path = None</span></span></span><br><span class="line"><span class="class"><span class="params">)</span></span></span><br></pre></td></tr></table></figure>
+<p>  创建广播变量：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">words_new = sc.broadcast([<span class="string">"scala"</span>, <span class="string">"java"</span>, <span class="string">"hadoop"</span>, <span class="string">"spark"</span>, <span class="string">"akka"</span>])</span><br></pre></td></tr></table></figure>
+<p><strong>累加器</strong> <strong>：</strong></p>
+<p>  累加器变量通过组合和交互操作进行信息统计。比如，可以做累加操作或者计数操作。下面是  Accumulator 类的具体代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">pyspark</span>.<span class="title">Accumulator</span><span class="params">(aid, value, accum_param)</span></span></span><br></pre></td></tr></table></figure>
+<p>  累加器变量有一个 value 用来保存数据，并返回累加器的值，只能用在驱动程序中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">num = sc.accumulator(<span class="number">10</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span>     </span><br><span class="line">	<span class="keyword">global</span> num     </span><br><span class="line">	num+=x </span><br><span class="line">rdd.foreach(f)</span><br></pre></td></tr></table></figure>
+<p>  这里 num 就是累加器变量。</p>
+<h1 id="六-、SparkConf"><a href="#六-、SparkConf" class="headerlink" title="六 、SparkConf"></a><strong>六</strong> <strong>、SparkConf</strong></h1><p>  运行 Spark 应用需要的配置信息</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">pyspark</span>.<span class="title">SparkConf</span> <span class="params">(</span></span></span><br><span class="line"><span class="class"><span class="params">    loadDefaults = True, </span></span></span><br><span class="line"><span class="class"><span class="params">    _jvm = None, </span></span></span><br><span class="line"><span class="class"><span class="params">    _jconf = None</span></span></span><br><span class="line"><span class="class"><span class="params"> )</span></span></span><br></pre></td></tr></table></figure>
+<p>  首先用SparkConf()创建一个 SparkConf 对象，加载 Java 环境 spark.*所有的值。现在可以用这个对象设置不同的参数值，优先级会比系统配置优先级高。<br>  SparkConf 类有设值方法，并且支持链式调用：conf.setAppName(“PySpark App”).setMaster(“local”)。一旦把 SparkConf 对象传入Spark，就不能被任何用户修改了。</p>
+<p>  常用方法：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>set(key,   value)</td>
+</tr>
+<tr>
+<td>setMaster(value)</td>
+</tr>
+<tr>
+<td>setAppName(value)</td>
+</tr>
+<tr>
+<td>get(key,   defaultValue=None)</td>
+</tr>
+<tr>
+<td>setSparkHome(value)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>  如：AppName 设置为”PySpark App”，Master 设置为”spark://master:7077”</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkConf, SparkContext </span><br><span class="line">conf = SparkConf().setAppName(<span class="string">"PySpark App"</span>).setMaster(<span class="string">"spark://master:7077"</span>) </span><br><span class="line">sc = SparkContext(conf=conf)</span><br></pre></td></tr></table></figure>
+<h1 id="七-、SparkFile"><a href="#七-、SparkFile" class="headerlink" title="七 、SparkFile"></a><strong>七</strong> <strong>、SparkFile</strong></h1><p>通过SparkContext.addFile()方法添加的文件会在 Spark 中添加缓存文件，所有操作在此文件上，因此可以通过以下方法获取该缓存文件的位置。</p>
+<table>
+<tr>
+<td>SparkFile.get(filename)</td><td>通过SparkContext.addFile()方法添加的文件的路径</td>
+</tr>
+<tr>
+<td>SparkFile.getrootdirectory()</td><td>通过SparkContext.addFile()方法添加的文件的根目录</td>
+</tr>
+</table>
+
+
+<h1 id="八、StorageLevel"><a href="#八、StorageLevel" class="headerlink" title="八、StorageLevel**"></a>八、StorageLevel**</h1><p>文件在内存和硬盘上的存储计划，具体不是我们关注的内容，感兴趣可以去<a href="https://www.tutorialspoint.com/pyspark/pyspark_storagelevel.htm" target="_blank" rel="noopener">源教程</a>中看一下。</p>
+<h1 id="九、机器学习库（MLlib）"><a href="#九、机器学习库（MLlib）" class="headerlink" title="九、机器学习库（MLlib）"></a><strong>九、机器学习库（MLlib）</strong></h1><p>包括：</p>
+<ol>
+<li>mllib.classification：提供多种二分类、多重分类和回归分析的方法。包括：随机森林、朴素贝叶斯、决策树等。</li>
+<li>mllib.clustering：基于一些相似度的概念对实体进行子集聚集是一个非监督学习问题。</li>
+<li>mllib.fpm：频繁模式匹配（Frequent Pattern      Matching)是挖掘频繁项、组、子序列或其他子集形式，通常用在分析大维度的数据集的第一步。是数据挖掘的近年的研究热点。</li>
+<li>mllib.linalg：mllib 的线性代数工具库</li>
+<li>mllib.recommendation：推荐系统中常用的协同过滤。用来填充用户-元素关联矩阵的空缺位置。</li>
+<li>spark.mllib：最新的支持基于模型的协同过滤，用户和产品被描述成潜在因子的小集合，用来预测缺失的元素，使用交替最小二乘（Alternating Least      Squares-ALS）算法去学习这些潜在因子。</li>
+<li>mllib.regression：线性回归是回归算法中的一种。回归的目标是找到变量间的关系和依赖。关于线性回归模型和模型总结的接口和逻辑回归相似。</li>
+</ol>
+<p>一个交替最小二乘的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkContext</span><br><span class="line"><span class="keyword">from</span> pyspark.mllib.recommendation <span class="keyword">import</span> ALS, MatrixFactorizationModel, Rating</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">  sc = SparkContext(appName=<span class="string">"Pspark mllib Example"</span>)</span><br><span class="line">  data = sc.textFile(<span class="string">"test.data"</span>)</span><br><span class="line">  ratings = data.map(<span class="keyword">lambda</span> l: l.split(<span class="string">','</span>))\</span><br><span class="line">    .map(<span class="keyword">lambda</span> l: Rating(int(l[<span class="number">0</span>]), int(l[<span class="number">1</span>]), float(l[<span class="number">2</span>])))</span><br><span class="line">    </span><br><span class="line">  <span class="comment"># Build the recommendation model using Alternating Least Squares</span></span><br><span class="line">  rank = <span class="number">10</span></span><br><span class="line">  numIterations = <span class="number">10</span></span><br><span class="line">  model = ALS.train(ratings, rank, numIterations)</span><br><span class="line">    </span><br><span class="line">  <span class="comment"># Evaluate the model on training data</span></span><br><span class="line">  testdata = ratings.map(<span class="keyword">lambda</span> p: (p[<span class="number">0</span>], p[<span class="number">1</span>]))</span><br><span class="line">  predictions = model.predictAll(testdata).map(<span class="keyword">lambda</span> r: ((r[<span class="number">0</span>], r[<span class="number">1</span>]), r[<span class="number">2</span>]))</span><br><span class="line">  ratesAndPreds = ratings.map(<span class="keyword">lambda</span> r: ((r[<span class="number">0</span>], r[<span class="number">1</span>]), r[<span class="number">2</span>])).join(predictions)</span><br><span class="line">  MSE = ratesAndPreds.map(<span class="keyword">lambda</span> r: (r[<span class="number">1</span>][<span class="number">0</span>] - r[<span class="number">1</span>][<span class="number">1</span>])**<span class="number">2</span>).mean()</span><br><span class="line">  print(<span class="string">"Mean Squared Error = "</span> + str(MSE))</span><br><span class="line">    </span><br><span class="line">  <span class="comment"># Save and load model</span></span><br><span class="line">  model.save(sc, <span class="string">"target/tmp/myCollaborativeFilter"</span>)</span><br><span class="line">  sameModel = MatrixFactorizationModel.load(sc, <span class="string">"target/tmp/myCollaborativeFilter"</span>)</span><br></pre></td></tr></table></figure>
+<p>  运行命令：$SPARK_HOME/bin/spark-submit recommend.py</p>
+<p>  输出结果：Mean Squared Error = 1.20536041839e-05</p>
+<h1 id="十、序列器"><a href="#十、序列器" class="headerlink" title="十、序列器"></a><strong>十、序列器</strong></h1><p>  序列化在 Spark 中用来性能调优。所有通过网络发送的、写在硬盘上、持久化在内存中的数据都应该要序列化。序列化在代价高操作中扮演重要角色。</p>
+<p>  PySpark 支持性能调优中的自定义序列器。支持2类序列器：</p>
+<ol>
+<li>MarshalSerializer：速度更快，但是支持的数据类型少。</li>
+<li>PickleSerializer：几乎所有 Python 对象，但是不如上面的快。</li>
+</ol>
+  	
+					
+	  </div>     
+	  
+
+	<div class="post-footer">
+
+  <div class="post-footer-other">
+      <span class="post-footer-item">
+        
+
+
+
+
+<span class="donate-btn">
+	<span class="iconfont icon-donate"></span>
+</span>
+
+
+<div id="donate-box" class="sildeUpMin">
+
+	<span class="donate-cancel iconfont icon-cancel"></span>
+
+	<div class="donate-img-box">
+		<img id="donate-qr-wechat" class="noLazyLoad donate-img" src="/images/donate1.png" alt="No Donate Image!">	
+		<img id="donate-qr-alipay" class="noLazyLoad donate-img" src="/images/donate2.png" alt="No Donate Image!">	
+	</div>
+
+	<span class="donate-word">希望本文对你有帮助~</span>
+
+	<div class="donate-list">
+		<span class="iconfont icon-donate-wechat"></span>
+		<span class="iconfont icon-donate-alipay"></span>
+	</div>
+
+</div>
+
+ 
+      </span>           
+      <span class="post-footer-item">
+        
+	
+<script id="-mob-share" src="http://f1.webshare.mob.com/code/mob-share.js?appkey=29a4323345125"></script>
+	
+	<span class="share-btn">
+	<span class="iconfont icon-share"></span>
+	</span>
+
+
+	<div class="-mob-share sildeUpMin">
+		<div class="-mob-inner">
+		   			             
+            <a class="iconfont icon-share-qq -mob-share-link"></a>		
+     	   			             
+            <a class="iconfont icon-share-weixin -mob-share-link"></a>		
+     	   			             
+            <a class="iconfont icon-share-weibo -mob-share-link"></a>		
+     	   
+		</div>
+	</div>	
+
+      </span>           
+  </div>  
+
+  <div class="post-footer-meta">
+        	
+
+        
+          <i class="iconfont icon-tag"></i>     
+            <a class="tag-link" href="/tags/pyspark/">pyspark</a> <a class="tag-link" href="/tags/spark/">spark</a>    
+        	
+  </div>
+
+</div>
+
+
+<nav class="post-footer-nav">
+  
+  
+    <div class="post-footer-link">
+      <a href="/2019/01/09/Spring-Boot-项目application-properties配置详情/" id="post-nav-older" class="post-nav-link-wrap">
+        <strong class="post-nav-caption">older</strong>
+        
+          <a class="post-nav-title" href="/2019/01/09/Spring-Boot-项目application-properties配置详情/">
+          Spring Boot 项目application.properties配置详情</a>
+      </a>
+    </div>
+  
+</nav>
+ 
+	
+
+
+    
+    <div id="disqus_thread"></div>
+
+    <script>
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://'+'xiaohaoxing-github-io'+'.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());    
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+
+    <noscript>Please enable JavaScript to view the  <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+    </noscript>
+
+
+	
+</article>
+
+          </section> 
+      </div>            
+    
+    <a id="backTop">
+      <span>
+        <i class="iconfont icon-backtotop"></i>
+      </span>
+    </a> 
+
+  
+    
+    <div class="search-container sildeUpMin">
+        <div class="search-header">
+            <input type="text" placeholder="Typing Something here." id="search-input" class="search-input">
+            <span class="search-cancel">
+                <i class="iconfont icon-cancel">
+            </i></span>
+        </div>
+        <div id="search-result" class="search-result"></div>
+    </div>
+ 
+     <div class="mobile-menu">      
+
+      
+      <img class="mobile-menu-icon" src="/images/favicon.ico">   
+      
+
+         
+            
+
+            <a class="mobile-menu-link" href="/">Home
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/archives">Archives
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/tags">Tags
+            </a>
+            
+         
+            
+
+            <a class="mobile-menu-link" href="/about">About
+            </a>
+            
+         
+                          
+
+            <a class="mobile-menu-link mobile-menu-search" href="#">Search </a>                 
+            
+         
+      
+</div>        
+    
+
+
+
+     
+    
+
+
+
+
+<footer id="footer">	    
+
+		
+		<div class="footer-copyright">
+		&copy;
+				
+		2018-
+		
+		2019		
+	
+		XiaoHaoxing
+		<br>
+
+		Theme By
+		<a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a>	
+		</div>			
+		<script src="https://s19.cnzz.com/z_stat.php?id=1274862886&web_id=1274862886" language="JavaScript"></script>
+</footer>   
+
+  
+
+    <script src="/nayo.bundle.js"></script>           
+  </body>        
+</html>
